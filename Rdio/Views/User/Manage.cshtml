@@ -1,0 +1,64 @@
+﻿@using MongoDB.Bson
+@model BsonArray
+@{
+    ViewBag.Title = "مدیریت کاربران";
+    Layout = "~/Views/Shared/Master.cshtml";
+}
+<form class="form form-inline" style="padding:5px 0" action="/user/manage" method="post">
+    <div class="form-group">
+        <label>نام کاربری</label>
+        <input type="text" class="form-control" name="uname" value="@ViewBag.uname" />
+    </div>
+    <div class="form-group">
+        <label>نام</label>
+        <input type="text" class="form-control" name="name" value="@ViewBag.name" />
+    </div>
+    <button type="submit" class="btn btn-primary">فیلتر</button>
+    <a href="/user/new" class="btn btn-primary">افزودن</a>
+</form>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ردیف</th>
+            <th>نام</th>
+            <th>نام کاربری</th>
+            <th>وضعیت</th>
+            <th>نقش</th>
+            <th>عملیات</th>
+        </tr>
+    </thead>
+    @if (Model != null)
+    {
+        <tbody>
+            @foreach (BsonDocument r in Model)
+            {
+                <tr>
+                    <td>@((int)++ViewBag.RowIndexStart)</td>
+                    <td>@r["name"].AsString</td>
+                    <td>@r["uname"].AsString</td>
+                    <td>@r.GetValue("status",0)</td>
+                    <td>@string.Join(",",r["roles"].AsBsonArray.Select(rl=>rl.ToString())) </td>
+                    <td class="op">
+                        <i class="glyphicon glyphicon-ok"  title="فعال/غیرفعال" onclick="toggleUser('@r["_id"]',this)"></i>
+                        <a href="/user/edit/@r["_id"]" ><i class="glyphicon glyphicon-edit" title="ویرایش"></i></a>
+                        <i onclick="removeUser('@r["_id"]',this)" class="glyphicon glyphicon-remove"  title="حذف"></i>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    }
+</table>
+<div style="text-align:center">
+    <a href='@Url.Action("manage", new { page=(ViewBag.page==1?2:ViewBag.page)-1,uname=ViewBag.uname , name =ViewBag.name })'><i class="glyphicon glyphicon-chevron-right"></i> قبلی</a>
+    <a href='@Url.Action("manage", new { page=ViewBag.page+1,uname=ViewBag.uname , name =ViewBag.name })' style="margin-right:40px">بعدی <i class="glyphicon glyphicon-chevron-left"></i></a>
+</div>
+<script type="text/javascript">
+    function removeUser(_id,hobj){
+        if(confirm("آیا از حذف این گزینه اطمینان دارید؟")){
+            $.post("/user/remove",{id:_id}).done(function(res){if(res!=""){alert(res);}else{ $(hobj).parent().parent().remove();}});
+        }
+    }
+    function toggleUser(_id,hobj){
+        $.post("/user/toggle",{id:_id}).done(function(res){if(res!=""){alert(res);}else{ $(hobj).toggleClass("glyphicon-ok").toggleClass("glyphicon-ban-circle");}});
+    }
+</script>

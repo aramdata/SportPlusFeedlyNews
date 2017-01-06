@@ -1,0 +1,11 @@
+﻿@model Rdio.Models.Content.NewsContent
+@{
+    ViewBag.Title = "item";
+    Layout = "~/Views/Shared/_MasterAdmin.cshtml";
+}
+<img src="@Model.image" alt="@Model.titr" />
+<h2>@Model.titr</h2>
+<p>@Model.lead</p>
+<hr />
+<div>@Html.Raw(Model.content)</div>
+

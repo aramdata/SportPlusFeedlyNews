@@ -1,0 +1,53 @@
+﻿
+@{
+    ViewBag.Title = "SiteManage";
+    Layout = "~/Views/Shared/_MasterAdmin.cshtml";
+}
+
+<div id="datacontainer"></div>
+
+<script id="datamodel" type="text/x-handlebars-template">
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>نام سایت</th>
+                    <th>آدرس</th>
+                    <th>تاریخ</th>
+                    <th>جزئیات</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each this.Data}}
+                <tr>
+                    <td>{{@@key}}</td>
+                    <td>{{title}}</td>
+                    <td>{{url}}</td>
+                    <td class="date">{{ticksToPDate createdateticks}}</td>
+                    <td>
+                        <a href="/ContentManager/EditSite?id={{_id}}"><i class="fa fa-pencil fa-lg" aria-hidden="true" title="ویرایش"></i></a>
+                        <a href="/ContentManager/RssManage?siteid={{_id}}"><i class="fa fa-plus fa-lg" aria-hidden="true" title="افزودن RSS"></i></a>
+                        <a href="/ContentManager/EditTemplate?siteid={{_id}}"><i class="fa fa-book fa-lg" aria-hidden="true" title="مدیریت قالب محتوا"></i></a>
+                        <span data-siteid="{{_id}}" class="DeleteSite"><i class="fa fa-trash fa-lg span-icon" aria-hidden="true" title="حذف سایت"></i></span>
+
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        <hr />
+        <div class="btn-group pull-left" role="group" aria-label="...">
+            <button data-pagenumber="{{this.PrevPage}}" class="paginatopnbtn btn btn-default {{#ifCond this.CurrentPage 1}}disabled{{/ifCond}}" title="{{this.PrevPage}}"><span class="fa fa-arrow-right"></span></button>
+            <button type="button" class="btn btn-default">{{this.CurrentPage}}</button>
+            <button data-pagenumber="{{this.NextPage}}" class="paginatopnbtn btn btn-default" title="{{this.NextPage}}"><span class="fa fa-arrow-left"></span></button>
+        </div>
+    </div>
+</script>
+
+<script>
+    $(document).ready(function () {
+        Rdio.ContentManager.Event.SiteManage();
+    });
+</script>
+

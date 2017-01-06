@@ -1,0 +1,97 @@
+﻿@font-face {
+  font-family: Shabnam;
+  src: url('fonts/Shabnam-FD.eot');
+  src: url('fonts/Shabnam-FD.eot?#iefix') format('embedded-opentype'),
+       url('fonts/Shabnam-FD.woff') format('woff'),
+       url('fonts/Shabnam-FD.ttf') format('truetype');
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: Shabnam;
+  src: url('fonts/Shabnam-Bold-FD.eot');
+  src: url('fonts/Shabnam-Bold-FD.eot?#iefix') format('embedded-opentype'),
+       url('fonts/Shabnam-Bold-FD.woff') format('woff'),
+       url('fonts/Shabnam-Bold-FD.ttf') format('truetype');
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: Shabnam;
+  src: url('fonts/Shabnam-Light-FD.eot');
+  src: url('fonts/Shabnam-Light-FD.eot?#iefix') format('embedded-opentype'),
+       url('fonts/Shabnam-Light-FD.woff') format('woff'),
+       url('fonts/Shabnam-Light-FD.ttf') format('truetype');
+  font-weight: 300;
+}
+ul{
+    margin:0;
+    padding:0;
+}
+li{
+    list-style:none;
+}
+a{
+    text-decoration:none;
+}
+a:focus{
+    border:none;
+}
+body{
+    font-family:Shabnam !important;
+    font-size:14px;
+    direction:rtl;
+    background:#eeeeee;
+     padding-top: 70px;
+}
+.page{
+    padding-top:15px;
+}
+
+.imagbox01-col{
+    padding:10px;
+}
+.imagebox01{
+    background: #fff none repeat scroll 0 0;
+    position: relative;
+    text-align:left;
+    /*border-radius: 8px;*/
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07);
+    padding:0 0 5px 0;
+    /*border:1px solid #eee;*/
+
+}
+.titr01{
+    color:#3c4a50;
+    font-size:15px;
+    margin:0;
+}
+
+.imagbox01-tools{
+    text-align:left;
+    margin-top:5px;
+}
+.imagbox01-tools li{
+    display:inline-block;
+    margin:0 2px;
+}
+.pagging hr{
+    border-color:#ddd;
+    margin:10px 0;
+}
+
+/******Video Convertor*/
+.date{
+    direction:ltr !important;
+    text-align:right;
+}
+/*****End Video*/
+
+#sampleurliframe{
+    width:100%;
+    height:500px;
+    border:none;
+}
+.contenttemplate {
+    display: none;
+}

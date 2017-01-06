@@ -1,0 +1,14 @@
+﻿{
+  "name": "",
+  "type": "news",
+  "domain": "http://farsnews.com",
+  "sampleurl": "http://www.farsnews.com/newstext.php?nn=13950925001350",
+  "structure": [
+    { "field": "titr","query": ".title","type": "innerhtml"},
+    { "field": "rotitr","query": ".over-title","type": "innerhtml"},
+    { "field": "lead","query": ".lead","type": "innerhtml"},
+    { "field": "content","query": ".story","type": "innerhtml"},
+    { "field": "image","query": "figure img","type": "src"},
+    { "field": "tags","query": "","type": "innerhtml"}
+  ]
+}

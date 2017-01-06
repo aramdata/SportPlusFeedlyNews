@@ -1,0 +1,122 @@
+﻿@using MongoDB.Bson
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content="Tarnama Portal 4.5" />
+    <link rel="icon" type="image/png" href='/favicon.png' />
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" type="text/css" href="~/Resource/bootstrap/css/bootstrap-rtl.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Resource/bootstrap/css/bootstrap-theme-rtl.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Resource/site.css" />
+    <link rel="stylesheet" type="text/css" href="~/Resource/tipTip.css" />
+    <link rel="stylesheet" type="text/css" href="~/Resource/fonts/font.css"  />
+    <script type="text/javascript" src="~/Resource/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="~/Resource/jquery.tipTip.minified.js"></script>
+    <script type="text/javascript" src="~/Resource/persianumber.min.js"></script>
+    <script type="text/javascript" src="~/Resource/site.js"></script>
+    <script type="text/javascript" src="~/Resource/bootstrap/js/bootstrap-rtl.min.js"></script>
+</head>
+<body>
+    <div class="container-fluid" style="direction: rtl">
+        <div class="row" style="background-color:#ccc;padding:7px;">
+            @*<a class="pull-right" href="/user/myprofile"><b> @string.Format("{0}", ((BsonDocument)ViewBag.ME)["name"])</b></a>*@
+            <a class="pull-right" href="/user/myprofile"><i class="glyphicon glyphicon-user" style="margin-left:7px"></i><span style="font:18px/18px bnassim;">@Rdio.Util.Common.My.name</span></a>
+            <a href="/user/logout" class="pull-left"><b style="color:#c00">خروج از سیستم</b>  @*<i class="glyphicon glyphicon-log-out" style="font-size:22px;" title="خروج"></i>*@</a>
+        </div>
+        <div class="row">
+            <div class="col-sm-1 zn1" style="background-color:#3A97AD;min-height:1200px;">
+                <a href="/news/index" class="@ViewBag.active_news">اخبار <span class="badge ninboxcount pull-left">@ViewBag.ninboxCount</span></a>
+              @if (ViewBag.UserNewsNegareshFlows != null && ((BsonArray)ViewBag.UserNewsNegareshFlows).Count>0)
+              {
+                  if (((BsonArray)ViewBag.UserNewsNegareshFlows).Count == 1)
+                  {
+                    <a href='@string.Format("/news/new?fid={0}",((BsonArray)ViewBag.UserNewsNegareshFlows)[0]["_id"])' class="@ViewBag.active_addnews"><i class="glyphicon glyphicon-pencil" style="margin-left:7px"></i>ثبت خبر</a>
+                  }
+                  else
+                  {
+                    <a data-toggle="modal" data-target="#addNewsModal" href='#' class="@ViewBag.active_addnews"><i class="glyphicon glyphicon-pencil" style="margin-left:7px"></i>ثبت خبر</a>
+                    <div id="addNewsModal" class="modal fade" role="dialog" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header"><h4 class="modal-title">لطفا یکی از روالهای گردش خبر ذیل را انتخاب کنید</h4></div>
+                                <div class="modal-body">
+                                    @foreach (BsonDocument f in (BsonArray)ViewBag.UserNewsNegareshFlows)
+                                    {
+                                    <a href='@string.Format("/news/new?fid={0}",f["_id"])' class="btn btn-info" >@f["title"]</a>
+                                    }
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  }
+              }
+                <a href="/page/index" class="@ViewBag.active_pages">صفحات <span class="badge pinboxcount pull-left">@ViewBag.pinboxCount</span></a>
+
+@if (ViewBag.UserPageNegareshFlows != null && ((BsonArray)ViewBag.UserPageNegareshFlows).Count>0)
+{
+    if (((BsonArray)ViewBag.UserPageNegareshFlows).Count == 1)
+    {
+        <a href='@string.Format("/page/new?fid={0}",((BsonArray)ViewBag.UserPageNegareshFlows)[0]["_id"])' class="@ViewBag.active_addpage"><i class="glyphicon glyphicon-pencil" style="margin-left:7px"></i>ثبت صفحه</a>
+    }
+    else
+    {
+        <a data-toggle="modal" data-target="#addPageModal" href='#' class="@ViewBag.active_addpage"><i class="glyphicon glyphicon-pencil" style="margin-left:7px"></i>ثبت صفحه</a>
+                    <div id="addPageModal" class="modal fade" role="dialog" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header"><h4 class="modal-title">لطفا یکی از روالهای گردش صفحه ذیل را انتخاب کنید</h4></div>
+                                <div class="modal-body">
+                                    @foreach (BsonDocument f in (BsonArray)ViewBag.UserPageNegareshFlows)
+                                    {
+                                        <a href='@string.Format("/page/new?fid={0}",f["_id"])' class="btn btn-info">@f["title"]</a>
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    }
+}
+
+
+                @if ((ViewBag.myPerms as BsonArray).Any(p=>p["key"].AsString== "perm_superuser"))
+                {
+                <a href="/user/manage" class="@ViewBag.active_users">مدیریت کاربران</a>
+                <a href="/user/roles" class="@ViewBag.active_roles">مدیریت نقشها</a>
+                <a href="/core/flows" class="@ViewBag.active_flows">مدیریت روالها</a>
+                <a href="/core/categories" class="@ViewBag.active_categories">مدیریت سرویسها</a>
+                <a href="/core/perms" class="@ViewBag.active_perms">حقوق دسترسی</a>
+                }
+            </div>
+            <div class="col-sm-11" style="padding-top:15px;padding-bottom:15px;">@RenderBody()</div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var lastNewsCount = 0;
+        setInterval(function () {
+            $.get("/user/inboxcount", { type: "news" }).done(function (res) {
+                $(".badge.ninboxcount").text(parseInt(res) || 0);
+                if (lastNewsCount != res)
+                    titleAalarm();
+                lastNewsCount = res;
+            });
+        }, 60000);
+        setInterval(function () {
+            $.get("/user/inboxcount", { type: "pages" }).done(function (res) {
+                $(".badge.pinboxcount").text(parseInt(res) || 0);
+            });
+        }, 60000);
+        $.get("/user/inboxcount", { type: "news" }).done(function (res) { $(".badge.ninboxcount").text(res); lastNewsCount = res;});
+        $.get("/user/inboxcount", { type: "pages" }).done(function (res) { $(".badge.pinboxcount").text(res); });
+        function titleAalarm()
+        {
+            var lastTitle = document.title;
+            var timeoutId = setInterval(function () { document.title = document.title == 'دریافتی جدید' ? ' ' : 'دریافتی جدید'; }, 1000);
+            setTimeout(function () { clearInterval(timeoutId); document.title = lastTitle; }, 15000);
+        }
+    </script>
+</body>
+</html>

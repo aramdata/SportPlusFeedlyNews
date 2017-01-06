@@ -1,0 +1,46 @@
+﻿@model CaptchaMvc.Models.DefaultBuildInfoModel
+@{
+    string id = Guid.NewGuid().ToString("N");
+    string functionName = string.Format("______{0}________()", Guid.NewGuid().ToString("N"));
+    <script type="text/javascript">
+        $(function () {
+            $('#@id').show();
+    });
+    function @functionName {
+            $('#@id').hide();
+        $.post("@Model.RefreshUrl", { @Model.TokenParameterName: $('#@Model.TokenElementId').val() },
+            function () {
+                $('#@id').show();
+            });
+        return false;
+    }
+    </script>
+
+    <div class="form-group">
+        @Html.Hidden(Model.TokenElementId, Model.TokenValue)
+        <label class="col-sm-2 control-label">کد امنیتی</label>
+        <div class="col-sm-2">
+            <input type="text" name="@Model.InputElementId" id="@Model.InputElementId" class="form-control" value="" />
+        </div>
+            <img class="col-sm-2" id="@Model.ImageElementId" src="@Model.ImageUrl" />
+            <a class="col-sm-2" href="#@Model.InputElementId" id="@id" onclick="@functionName" style="display: none;"><i class="fa fa-refresh fa-lg" aria-hidden="true"></i></a>
+    </div>
+
+}
+@*<br />
+    @Model.InputText
+    <br />
+    @if (Model.IsRequired)
+    {
+        @Html.TextBox(Model.InputElementId, null, new Dictionary<string, object>
+                                                      {
+                                                          {"data-val", "true"},
+                                                          {"data-val-required", Model.RequiredMessage}
+                                                      })
+    }
+    else
+    {
+        @Html.TextBox(Model.InputElementId)
+    }
+    @Html.ValidationMessage(Model.InputElementId)
+*@

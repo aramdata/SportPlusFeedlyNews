@@ -1,0 +1,107 @@
+﻿@using Rdio.Utility
+@{
+    ViewBag.Title = "RssManage";
+    Layout = "~/Views/Shared/_MasterAdmin.cshtml";
+}
+@model Rdio.ViewModel.ContentManager.RssVM
+
+<div>
+    <h2>@Model.sitetitle</h2>
+    <hr />
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">لینک Rss جدید</h3>
+    </div>
+    <div class="panel-body">
+        <form class="form-horizontal">
+            <input type="hidden" name="_id" value="@Model._id" />
+            <input type="hidden" name="siteid" value="@Model.siteid" />
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">عنوان</label>
+                <div class="col-sm-10">
+                    <input id="title" class="form-control input-lg" type="text" placeholder="عنوان" value="@Model.title">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">آدرس Rss</label>
+                <div class="col-sm-10">
+                    <input id="url" class="form-control input-lg" type="text" placeholder="http://www.aramdata.ir/rss" value="@Model.url">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">گروه بندی</label>
+                <div class="col-sm-10">
+                    <input id="categories" class="form-control input-lg" type="text" placeholder="سیاسی , اجتماعی" value="@string.Join(",",Model.categories.ToArray())">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">کلیدواژه</label>
+                <div class="col-sm-10">
+                    <input id="tags" class="form-control input-lg" type="text" placeholder="برجام , ایران" value="@string.Join(",",Model.tags.ToArray())">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">زبان</label>
+                <div class="col-sm-10">
+                    <select class="form-control input-lg" name="lang" id="lang">
+                        @foreach (var item in Enum.GetValues(typeof(Rdio.Util.Common.RssLanguege)))
+                        {
+                            <option @Html.isSelected(item.ToString() == Model.lang) value='@item'>@Rdio.Util.Common.GetEnumDescription((Rdio.Util.Common.RssLanguege)item)</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="button" id="editrsssubmit" class="btn btn-success pull-left">ثبت</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="datacontainer"></div>
+<script id="datamodel" type="text/x-handlebars-template">
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>عنوان</th>
+                    <th>آدرس</th>
+                    <th>جزئیات</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each this.Data}}
+                <tr>
+                    <td>{{@@key}}</td>
+                    <td>{{title}}</td>
+                    <td>{{url}}</td>
+                    <td>
+                        <a href="/BaseContent/Manage?rssid={{_id}}"><i class="fa fa-list fa-lg" aria-hidden="true" title="لیست اخبار"></i></a>
+                        <a href="/ContentManager/RssManage?id={{_id}}&siteid={{siteid}}"><i class="fa fa-pencil fa-lg" aria-hidden="true" title="ویرایش"></i></a>
+                        <span data-rssid="{{_id}}" class="DeleteRss"><i class="fa fa-trash fa-lg span-icon" aria-hidden="true" title="حذف RSS"></i></span>
+
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        <hr />
+        <div class="btn-group pull-left" role="group" aria-label="...">
+            <button data-pagenumber="{{this.PrevPage}}" class="paginatopnbtn btn btn-default {{#ifCond this.CurrentPage 1}}disabled{{/ifCond}}" title="{{this.PrevPage}}"><span class="fa fa-arrow-right"></span></button>
+            <button type="button" class="btn btn-default">{{this.CurrentPage}}</button>
+            <button data-pagenumber="{{this.NextPage}}" class="paginatopnbtn btn btn-default" title="{{this.NextPage}}"><span class="fa fa-arrow-left"></span></button>
+        </div>
+    </div>
+</script>
+
+<script>
+    $(document).ready(function () {
+        Rdio.ContentManager.Event.RssManage();
+        Rdio.ContentManager.Event.EditRss();
+    });
+</script>

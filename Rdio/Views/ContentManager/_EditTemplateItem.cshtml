@@ -1,0 +1,27 @@
+﻿@using Rdio.Utility
+@model Tuple<Rdio.ViewModel.ContentManager.TemplateVM,string,string>
+@{ var structure = new Rdio.Models.Crawl.CrawlStructur();}
+
+<div class="form-group">
+    @{
+        if (Model.Item1.structure.FirstOrDefault(t => t.field == Model.Item2) != null)
+        {
+            structure = Model.Item1.structure.FirstOrDefault(t => t.field == Model.Item2);
+        }
+        else
+        {
+            structure = new Rdio.Models.Crawl.CrawlStructur();
+        }
+    }
+    <label class="col-sm-2 control-label">@Model.Item3</label>
+    <div class="col-sm-7">
+        <input id="@Model.Item2" data-field="@Model.Item2" class="form-control input-lg" type="text" placeholder="@Model.Item3" value="@structure.query">
+    </div>
+    <div class="col-sm-3">
+        <select class="form-control input-lg" name="structure_type" id="structure_type">
+            <option @Html.isSelected(structure.type == "innerhtml") value='innerhtml'>محتوای داخل Html</option>
+            <option @Html.isSelected(structure.type == "src") value='src'>آدرس فایل</option>
+        </select>
+    </div>
+</div>
+

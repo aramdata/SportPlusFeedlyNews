@@ -1,0 +1,123 @@
+﻿@using Rdio.Utility
+@{
+    ViewBag.Title = "BlockRssBindManage";
+    Layout = "~/Views/Shared/_MasterAdmin.cshtml";
+}
+@model Rdio.ViewModel.ContentManager.SimpleCategoryRssBindManageVM
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">ثبت ارتباط جدید</h3>
+    </div>
+    <div class="panel-body">
+        <form class="form-horizontal">
+            <input type="hidden" name="_id" value="@Model._id" />
+            <div class="clearfix">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="control-label">گروه | جایگاه</label>
+                        <select class="form-control input-lg" name="categoryidblockcode" id="categoryidblockcode">
+                            @foreach (var category in Model.Categories)
+                            {
+                                foreach (var block in category.blocks)
+                                {
+                                    <option @*@Html.isSelected(item._id == Model.parentId)*@ value='@string.Format("{0}|{1}",category._id,block.code)'>@string.Format("{0} | {1}", category.title, block.title)</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <label for="inputEmail3" class="control-label">Rss</label>
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <select class="form-control input-lg" name="rssid" id="rssid">
+                                @foreach (var item in Model.Rss)
+                                {
+                                    <option value='@item._id'>@string.Format("{0} | {1}", Model.RssSitesName.FirstOrDefault(q => q.Item1 == item._id).Item2, item.title)</option>
+                                }
+                            </select>
+                            <button type="button" id="addblockrssbind" class="btn btn-warning btn-lg">افزودن به لیست</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+            <div class="clearfix" id="blockrssbindcontainer">
+                @foreach (var category in Model.Categories)
+                {
+                    foreach (var block in category.blocks)
+                    {
+                        if (block.blockrssbind != null)
+                        {
+                            foreach (var rssId in block.blockrssbind)
+                            {
+                                var CatIdBCodeRssId = string.Format("{0}|{1}|{2}", category._id, block.code, rssId);
+                                <div class="btn-group BlockRssBindItem" data-CatIdBCodeRssId="@CatIdBCodeRssId">
+                                    <button type="button" class="btn btn-default ">@string.Format("{0} | {1} -> {2} | {3}", category.title, block.title, Model.RssSitesName.FirstOrDefault(q => q.Item1 == rssId).Item2, Model.Rss.FirstOrDefault(q => q._id == rssId).title)</button>
+                                    <button type="button" class="btn btn-default RemoveBlockRssBindItem"><span class="fa fa-trash-o"></span></button>
+                                </div>
+                            }
+                        }
+
+                    }
+                }
+            </div>
+            <hr />
+            <div class="clearfix">
+                <button type="button" id="SaveBlockRssBind" class="btn btn-success pull-left">ثبت</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="datacontainer"></div>
+<script id="datamodel" type="text/x-handlebars-template">
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>عنوان</th>
+                    <th>آدرس</th>
+                    <th>جزئیات</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each this.Data}}
+                <tr>
+                    <td>{{@@key}}</td>
+                    <td>{{title}}</td>
+                    <td>{{url}}</td>
+                    <td>
+                        <a href="/ContentManager/RssManage?id={{_id}}&siteid={{siteid}}"><i class="fa fa-pencil fa-lg" aria-hidden="true" title="ویرایش"></i></a>
+                        <a href="/BaseContent/Manage?rssid={{_id}}"><i class="fa fa-list fa-lg" aria-hidden="true" title="لیست اخبار"></i></a>
+
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        <hr />
+        <div class="btn-group pull-left" role="group" aria-label="...">
+            <button data-pagenumber="{{this.PrevPage}}" class="paginatopnbtn btn btn-default {{#ifCond this.CurrentPage 1}}disabled{{/ifCond}}" title="{{this.PrevPage}}"><span class="fa fa-arrow-right"></span></button>
+            <button type="button" class="btn btn-default">{{this.CurrentPage}}</button>
+            <button data-pagenumber="{{this.NextPage}}" class="paginatopnbtn btn btn-default" title="{{this.NextPage}}"><span class="fa fa-arrow-left"></span></button>
+        </div>
+    </div>
+</script>
+
+
+<script id="blockrssbindtemplatemodel" type="text/x-handlebars-template">
+    <div class="btn-group BlockRssBindItem" data-CatIdBCodeRssId="{{CatIdBCodeRssId}}">
+        <button type="button" class="btn btn-default ">{{Title}}</button>
+        <button type="button" class="btn btn-default RemoveBlockRssBindItem"><span class="fa fa-trash-o"></span></button>
+    </div>
+</script>
+<script>
+    $(document).ready(function () {
+        Rdio.ContentManager.Event.BlockRssBindManager();
+        //Rdio.ContentManager.Event.EditRss();
+    });
+</script>
+

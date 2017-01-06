@@ -1,0 +1,121 @@
+﻿@font-face {
+    font-family: 'Yekan';
+    src: url('fonts/iryekanregular.eot');
+    src: url('fonts/iryekanregular.eot?#iefix') format('embedded-opentype'),
+         url('fonts/iryekanregular.woff2') format('woff2'),
+         url('fonts/iryekanregular.woff') format('woff'),
+         url('fonts/iryekanregular.ttf') format('truetype'),
+         url('fonts/iryekanregular.svg#iryekanregular') format('svg');
+    font-weight: 400;
+    font-style: normal;
+}
+
+body{
+	margin: 0;
+	padding: 0;
+	background: #fff;
+	color: #fff;
+	font-family: Yekan;
+	font-size: 12px;
+    height: 100%;
+    overflow:hidden;
+}
+
+.login input[type=text]{
+	width: 250px;
+	height: 30px;
+	background-color: transparent;
+	border: 1px solid #fff;
+	border-radius: 2px;
+	color: #c00;
+	font-family: Yekan;
+	font-size: 16px;
+	font-weight: 400;
+	padding: 4px;
+-webkit-box-shadow:inset 1px 1px 10px 2px #999;
+box-shadow:inset 1px 1px 10px 2px #999;
+}
+
+.login input[type=password]{
+	width: 250px;
+	height: 30px;
+	background-color: transparent;
+	border: 1px solid #fff;
+	border-radius: 2px;
+	color: #c00;
+	font-family: Yekan;
+	font-size: 16px;
+	font-weight: 400;
+	padding: 4px;
+	margin-top: 10px;
+    -webkit-box-shadow:inset 1px 1px 10px 2px #999;
+box-shadow:inset 1px 1px 10px 2px #999;
+
+}
+
+.login input[type=submit]{
+	width: 260px;
+	/*height: 35px;*/
+	background: #fff;
+	border: 1px solid #999;
+	cursor: pointer;
+	border-radius: 2px;
+	color: #0005ea;
+	font-family: Yekan;
+	font-size: 13px;
+	font-weight: 400;
+	padding: 6px;
+	margin-top: 10px;
+}
+
+.login input[type=submit]:hover{
+	opacity: 0.8;
+}
+
+.login input[type=submit]:active{
+	opacity: 0.6;
+}
+
+.login input[type=text]:focus{
+	outline: none;
+	border: 1px solid rgba(255,255,255,0.9);
+}
+
+.login input[type=password]:focus{
+	outline: none;
+	border: 1px solid rgba(255,255,255,0.9);
+}
+
+.login input[type=button]:focus{
+	outline: none;
+}
+
+::-webkit-input-placeholder{
+   color: rgba(255,255,255,0.6);
+}
+
+::-moz-input-placeholder{
+   color: rgba(255,255,255,0.6);
+}
+
+.logo{
+    width:200px;
+    margin:0 auto 15px;
+    display:block;
+}
+.tranparet-box{
+    background:rgba(255,255,255,0.75);
+    height: 290px;
+    left: calc(50% - 150px);
+    padding: 20px;
+    position: absolute;
+    top: calc(50% - 165px);
+    width: 260px;
+    z-index: 2;
+    border-radius:5px;
+}
+.paragraf{
+    text-align:center;
+    margin:5px 0;
+    color:#323232;
+}

@@ -1,0 +1,50 @@
+﻿@using MongoDB.Bson
+@using CaptchaMvc.HtmlHelpers;
+@{
+    ViewBag.Title = "ثبت نام";
+    Layout = "~/Views/Shared/_Master.cshtml";
+}
+@if(TempData["MSG"]!=null)
+{
+    <div class="alert @TempData["MSGT"]">@TempData["MSG"]</div>
+}
+<link href="~/Resource/selectize/css/selectize.default.css" rel="stylesheet" />
+<script src="~/Resource/selectize/selectize.min.js"></script>
+<script src="~/Resource/sha1.min.js"></script>
+<form class="form form-horizontal" method="post" action="/user/register" id="adduserform">
+    <div class="form-group">
+        <label class="col-sm-2 control-label">نام و نام خانوادگی</label>
+        <div class="col-sm-10">
+            <input type="text" name="name" class="form-control" value="@ViewBag.name" />
+        </div>
+    </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">پست الکترونیک (نام کاربری)</label>
+            <div class="col-sm-10">
+                <input type="text" name="uname" class="form-control" style="direction:ltr" placeholder="ex: yourname@yahoo.com" value="@ViewBag.uname" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">رمزعبور</label>
+            <div class="col-sm-10">
+                <input type="text" name="password" id="password" class="form-control" style="direction:ltr" />
+            </div>
+        </div>
+    @Html.Captcha(5, "_Captcha")
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button class="btn btn-success">ثبت</button>
+            <a href="/user/manage" class="btn btn-default">انصراف</a>
+        </div>
+    </div>
+    
+</form>
+<script type="text/javascript">
+    $("#adduserform").submit(function () {
+        $("#password").val(sha1($("#password").val()));
+    });
+
+   
+</script>

@@ -1,0 +1,73 @@
+﻿@using MongoDB.Bson
+@model BsonDocument
+@{
+    ViewBag.Title = "ویرایش کاربر";
+    Layout = "~/Views/Shared/Master.cshtml";
+}
+<link href="~/Resource/selectize/css/selectize.default.css" rel="stylesheet" />
+<script src="~/Resource/selectize/selectize.min.js"></script>
+@if (TempData["MSG"] != null){<div class="alert alert-danger">@TempData["MSG"]</div>}
+@if (TempData["SMSG"] != null){<div class="alert alert-success">@TempData["SMSG"]</div>}
+<script src="~/Resource/sha1.min.js"></script>
+<form class="form" method="post" action="/user/edit" id="adduserform">
+    <input type="hidden" name="id" value='@Model["_id"]' />
+    <div class="form-group">
+        <label>نام و نام خانوادگی</label>
+        <input type="text" disabled class="form-control" value='@Model["name"]' name="name" />
+    </div>
+    @*<div class="form-group">
+        <label>پست الکترونیک</label>
+        <input type="text" name="email" class="form-control" style="direction:ltr" placeholder="ex: yourname@yahoo.com" value='@Model["email"]' />
+    </div>*@
+    <div class="row" id="rolesarea" style="margin:0">
+        <div class="col-sm-12"><label>نقشها</label></div>
+        <select name="roles" multiple class="demo-default selectized roles">
+            @foreach (BsonDocument r in (BsonArray)ViewBag.roles)
+            {
+                <option @string.Format("{0}", Model["roles"].AsBsonArray.Any(rl => rl == r["name"].AsString) ? "selected":"") value='@r["name"]'>@r["name"]</option>
+            }
+        </select>
+    </div>
+    <div class="row" style="margin:0">
+        <div class="col-sm-12"><label>سرویسها</label></div>
+        <select name="categories" multiple class="demo-default selectized categories">
+            @foreach (string c in (IEnumerable<string>)ViewBag.categories)
+            {
+                <option @string.Format("{0}", Model["categories",new BsonArray()].AsBsonArray.Any(cat => cat == c) ? "selected" : "") value='@c'>@c</option>
+            }
+        </select>
+    </div>
+    <br />
+    <a href="/user/manage" class="btn btn-primary pull-left">انصراف</a>
+    <button class="btn btn-primary pull-left" style="margin-left:12px">ثبت</button>
+    <div style="clear:both"></div>
+</form>
+<div class="panel panel-default" style="margin-top:15px;">
+    <div class="panel-heading">تنظیم مجدد رمز عبور</div>
+    <div class="panel-body">
+        <form class="form form-inline" method="post" action="/user/resetpassword" id="resetpasswordform" autocomplete="off"> 
+            <input type="hidden" name="uid" value='@Model["_id"]' />
+            <div class="form-group">
+                <input type="password" name="newpassword" id="newpassword" autocomplete="off" class="form-control" style="direction:ltr" placeholder="رمزعبور جدید" />
+            </div>
+            <div class="form-group">
+                <input type="password" name="newpasswordr" id="newpasswordr" autocomplete="off" class="form-control" style="direction:ltr" placeholder="تکرار رمزعبور جدید" />
+            </div>
+            <button class="btn btn-primary" type="submit">ثبت</button>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $("#resetpasswordform").submit(function () {
+        if ($("#newpassword").val() != $("#newpasswordr").val()) {
+            alert("رمز عبور جدید و تکرار آن متفاوت میباشد");
+            return false;
+        }
+        $("#newpassword").val(sha1($("#newpassword").val()));
+    });
+    $(".selectized.roles,.selectized.categories").selectize({
+        plugins: ['remove_button'],
+        create: false
+    });
+</script>

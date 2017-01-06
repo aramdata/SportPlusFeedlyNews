@@ -1,0 +1,226 @@
+﻿@using MongoDB.Bson
+@using Rdio.Util    
+
+@model BsonDocument
+@{
+    ViewBag.Title = "صفحه من";
+    Layout = "~/Views/Shared/_Master.cshtml";
+    var Orders = Rdio.Modules.Shopping.Common.GetOrders(Rdio.Util.Common.My.id);
+    var Favorit = Rdio.Util.My.GetFavorits();
+}
+
+<h2>@Model.GetValue("name","")</h2>
+<hr />
+<script src="~/Resource/sha1.min.js"></script>
+@if (TempData["MSG"] != null)
+{<div class="alert alert-danger">@TempData["MSG"]</div>}
+@if (TempData["SMSG"] != null)
+{<div class="alert alert-success">@TempData["SMSG"]</div>}
+<div>
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">پروفایل من</a></li>
+        <li role="presentation"><a href="#shoppign" aria-controls="shoppign" role="tab" data-toggle="tab">آخرین خریدها</a></li>
+        <li role="presentation"><a href="#favorit" aria-controls="favorit" role="tab" data-toggle="tab">عکس های منتخب</a></li>
+    </ul>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="profile">
+            <form class="form-horizontal" method="post" action="/user/myprofile" id="profileform">
+                <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-2 control-label">پست الکترونیک (نام کاربری)</label>
+                    <div class="col-sm-10">
+                        <p class="form-control-static">@Model["uname"]</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">نام و نام خانوادگی</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="name" name="name" value="@Model["name"]">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-success">ثبت پروفایل</button>
+                    </div>
+                </div>
+            </form>
+            
+            <div class="panel panel-default" style="margin-top:15px;">
+                <div class="panel-heading">تغییر رمز عبور</div>
+                <div class="panel-body">
+                    <form class="form form-inline" method="post" action="/user/changepassword" id="changepasswordform">
+                        <div class="form-group">
+                            <input type="password" name="password" id="curpassword" class="form-control" style="direction:ltr" placeholder="رمزعبور جاری" />
+                        </div>
+                        <div class="form-group">
+                            <input type="password" name="newpassword" id="newpassword" class="form-control" style="direction:ltr" placeholder="رمزعبور جدید" />
+                        </div>
+                        <div class="form-group">
+                            <input type="password" name="newpasswordr" id="newpasswordr" class="form-control" style="direction:ltr" placeholder="تکرار رمزعبور جدید" />
+                        </div>
+                        <button class="btn btn-primary" type="submit">ثبت</button>
+                    </form>
+                </div>
+            </div>
+
+            <script type="text/javascript">
+    $("#changepasswordform").submit(function () {
+        if ($("#newpassword").val() != $("#newpasswordr").val()) {
+            alert("رمز عبور جدید و تکرار آن متفاوت میباشد");
+            return false;
+        }
+        $("#newpassword").val(sha1($("#newpassword").val()));
+        $("#curpassword").val(sha1($("#curpassword").val()));
+    });
+            </script>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="shoppign">
+            @if (Orders.Count > 0)
+            {
+                var cnt = 0;
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>کد سفارش</th>
+                                <th>تاریخ</th>
+                                <th>مبلغ کل</th>
+                                <th>پرداخت</th>
+                                <th>جزئیات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var _item in Orders)
+                            {
+                                var item = _item.ToBsonDocument();
+                                cnt++;                                
+                                <tr>
+                                    <td>@cnt</td>
+                                    <td>@item.GetValue("orderid")</td>
+                                    <td>@Rdio.Util.Common.ConvertG2JDateText(new DateTime(item.GetValue("createdateticks", 0).AsInt64))</td>
+                                    <td><span class="price">@item.GetValue("totalprice")</span></td>
+                                    <td>
+                                        @if (item.GetValue("paymentstatus").AsInt32 == (int)Rdio.Modules.Shopping.Common.PaymentStatus.NotPaid)
+                                        {
+                                            <a href="@Url.Action("Payment","Shopping", new { id =item.GetValue("_id","")})" class="btn btn-success">پرداخت</a>
+                                        }
+                                        else
+                                        {
+                                            <a href="@Url.Action("Payment","Shopping", new { id =item.GetValue("_id","")})" class="btn btn-success disabled">پرداخت</a>
+                                        }
+                                    </td>
+                                    <td>
+                                        <span style="cursor:pointer;" data-orderid="@item.GetValue("orderid")" data-toggle="modal" data-target="#orderproductsmodal" ><i class="fa fa-shopping-basket" aria-hidden="true"></i></span>
+                                        <div style="display:none">
+                                            <h4>محصولات</h4>
+                                            <div class="table-responsive">
+                                                <table class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>شرح محصول</th>
+                                                            <th>تعداد</th>
+                                                            <th>قیمت واحد</th>
+                                                            <th>قیمت کل</th>
+                                                            <th>دریافت تصویر</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (var orderproduct in item.GetValue("products",new BsonArray()).AsBsonArray)
+                                                        {
+                                                            var product = orderproduct.ToBsonDocument();
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="clearfix">
+                                                                        <div class="pull-right">
+                                                                            <img src="@Rdio.Modules.Product.Common.ProductInfo(product.GetValue("id","").AsString).GetValue("filepath").AsString.Replace("~","")?preset=KdTr1" class="thumbnail- img-responsive" />
+                                                                        </div>
+                                                                        <div class="pull-right" style="margin-right:10px;">
+                                                                            <h2 class="titr01">@Rdio.Modules.Product.Common.ProductInfo(product.GetValue("id", "").AsString).GetValue("title")</h2>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </td>
+                                                                <td>@product.GetValue("count", 0)</td>
+                                                                <td class="price">@product.GetValue("price", 0)</td>
+                                                                <td class="price">@(product.GetValue("count", 0).AsInt32 * product.GetValue("price", 0).AsInt32)</td>
+                                                                <td><a target="_blank" href="@Url.Action("DownloadProductImage","Shopping", new {id=item.GetValue("_id"),pid= product.GetValue("id", ""),guid=Guid.NewGuid() })"><i class="fa fa-cloud-download" aria-hidden="true"></i></a></td>
+                                                            </tr>
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <hr />
+                                            <h4>گزارشات پرداخت</h4>
+                                            <div class="table-responsive">
+                                                <table class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>نام بانک</th>
+                                                            <th>تاریخ تراکنش</th>
+                                                            <th>کد پیگیری بانک</th>
+                                                            <th>وضیعیت تراکنش</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (var ordertransaction in item.GetValue("banktransaction", new BsonArray()).AsBsonArray)
+                                                        {
+                                                            var transaction = ordertransaction.ToBsonDocument();
+                                                            <tr>
+                                                                <td>@Rdio.Util.Common.GetEnumDescription((Rdio.Modules.Shopping.Common.BankGetway)transaction.GetValue("bankgetaway", 0).AsInt32)</td>
+                                                                <td>@Rdio.Util.Common.ConvertG2JDateText(new DateTime(transaction.GetValue("dateticks", 0).AsInt64))</td>
+                                                                <td>@transaction.GetValue("bankbegintransactioncode", "")</td>
+                                                                <td>@Rdio.Util.Common.GetEnumDescription((Rdio.Modules.Shopping.Common.PaymentStatus)transaction.GetValue("transactionstatus", 0).AsInt32)</td>
+                                                            </tr>
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal fade" id="orderproductsmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel">جزئیات سفارش</h4>
+                            </div>
+                            <div class="modal-body">
+                                
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">بستن</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    $('#orderproductsmodal').on('show.bs.modal', function (event) {
+                        var button = $(event.relatedTarget);
+                        var orderid = button.data('orderid');
+                        var modal = $(this);
+                        var orderproducts = $(button).next().html();
+                        modal.find('.modal-title').text('جزئیات سفارش شماره ' + orderid)
+                        modal.find('.modal-body').html($(orderproducts));
+                    })
+                </script>
+            }
+            else
+            {
+                <span>شما تا کنون سفارشی ثبت نکرده اید</span>
+            }
+        </div>
+        <div role="tabpanel" class="tab-pane" id="favorit">
+            @foreach (var _item in Favorit)
+            {
+                @Html.Partial("../Product/_ProductItem", _item)
+            }
+        </div>
+    </div>
+
+</div>
+
