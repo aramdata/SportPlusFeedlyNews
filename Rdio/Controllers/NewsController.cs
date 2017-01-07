@@ -4,22 +4,23 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Rdio.Service;
 
 namespace Rdio.Controllers
 {
     public class NewsController : Controller
     {
+        NewsService NewsService =new NewsService();
         public async Task<ActionResult> Service(int? CategoryId)
         {
-            var Params = new List<Tuple<string, string>>
+            var m = await this.NewsService.PortalCategoriesAsync();
+            var model=new ViewModel.News.ServiceVM
             {
-                new Tuple<string, string>("userid", Util.Configuration.UserId)
+                //Categories = (await NewsService.PortalCategories()).ToList()
             };
 
-            var result = await Util.ApiUtility.HttpRequest("UserBlog/GetCategories", Params);
-            if (CategoryId == null)
-                CategoryId = 5;
-            var categories = Util.ApiUtility.GetServiceResult<Models.ContentManager.Category>(result);
+            if (CategoryId==null)
+                return View("Home", model);
             return View();
         }
 

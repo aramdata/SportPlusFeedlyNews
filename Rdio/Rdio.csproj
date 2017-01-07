@@ -523,6 +523,7 @@
     <Compile Include="Repository\ContentManagerRepository.cs" />
     <Compile Include="Service\CacheService.cs" />
     <Compile Include="Service\CrawlerService.cs" />
+    <Compile Include="Service\NewsService.cs" />
     <Compile Include="Service\RssService.cs" />
     <Compile Include="Service\SchedulerService.cs" />
     <Compile Include="Service\ContentManagerService.cs" />
@@ -552,6 +553,7 @@
     <Compile Include="ViewModel\ContentManager\TemplateVM.cs" />
     <Compile Include="ViewModel\Content\ContentManageServiceResult.cs" />
     <Compile Include="ViewModel\Content\SimpleContentManageVM.cs" />
+    <Compile Include="ViewModel\News\ServiceVM.cs" />
     <Compile Include="ViewModel\Pagination.cs" />
     <Compile Include="ViewModel\ServiceResult.cs" />
     <Compile Include="ViewModel\UserBlog\GetCategoriesVM.cs" />
@@ -640,6 +642,8 @@
     <Content Include="Views\ContentManager\CategoryManage.cshtml" />
     <Content Include="Views\ContentManager\BlockRssBindManage.cshtml" />
     <Content Include="Views\News\Service.cshtml" />
+    <Content Include="Views\News\Home.cshtml" />
+    <Content Include="Views\Shared\_MainMenu.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

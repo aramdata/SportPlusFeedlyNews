@@ -10,8 +10,9 @@ namespace Rdio.Service
         public static string InProccessKeyName = "InProccessFileName";
         public static string VideoConvertProgressKeyName = "VideoConvertProgress";
         public static string VideoConvertLogReceivKeyName = "VideoConvertLogReceiv";
+        public static string PortalCategories = "PortalCategories";
 
-        public void AddToCache(string key,string value)
+        public void AddToCache(string key,object value)
         {
             try
             {
@@ -20,19 +21,19 @@ namespace Rdio.Service
             catch { }
         }
 
-        public string GetCache(string key)
+        public object GetCache(string key)
         {
             try
             {
                 var model = HttpRuntime.Cache[key];
                 if (model == null)
-                    return string.Empty;
+                    return null;
                 else
-                    return model.ToString();
+                    return model;
             }
             catch (Exception ex)
             {
-                return string.Empty;
+                return null;
             }
         }
 

@@ -1,0 +1,6 @@
+﻿@using Rdio.Service
+    
+@foreach (var item in NewsService.PortalCategories())
+{
+    <div>@item.title</div>
+}
