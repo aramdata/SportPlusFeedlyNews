@@ -28,8 +28,8 @@ namespace Rdio.Controllers
             var Params = new List<Tuple<string, string>>
             {
                 new Tuple<string, string>("userid", Util.Configuration.UserId),
-                new Tuple<string, string>("CategoryId", "586d50862810091d046d7faa"),
-                new Tuple<string, string>("BlockCode", "SELECTED"),
+                new Tuple<string, string>("CategoryId", "587089a4f61ebb1fb8395de8"),
+                new Tuple<string, string>("BlockCode", "SPECIAL"),
                 new Tuple<string, string>("Count", "20")
 
             };
