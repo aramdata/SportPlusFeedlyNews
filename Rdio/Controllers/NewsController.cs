@@ -13,31 +13,28 @@ namespace Rdio.Controllers
         NewsService NewsService =new NewsService();
         public async Task<ActionResult> Service(int? CategoryId)
         {
-            var m = await this.NewsService.PortalCategoriesAsync();
-            var model=new ViewModel.News.ServiceVM
+            var Category = NewsService.PortalCategories().FirstOrDefault();
+            var Blocks = Category.blocks.Where(q => q.blockrssbind.Any()).ToList();
+
+            var BlocksNews = new List<Tuple<Models.ContentManager.Block, List<Models.Content.NewsContent>>>();
+            foreach (var block in Blocks)
             {
-                //Categories = (await NewsService.PortalCategories()).ToList()
+                BlocksNews.Add(new Tuple<Models.ContentManager.Block, List<Models.Content.NewsContent>>
+                    (block, 
+                    (await this.NewsService.GetBlockNews(Category._id, block.code, 20)).ToList()
+                    ));
+            }
+
+            var model =new ViewModel.News.ServiceVM
+            {
+                Categories = Category,
+                Blocks = Blocks,
+                BlockNews= BlocksNews
             };
 
             if (CategoryId==null)
                 return View("Home", model);
             return View();
-        }
-
-        public async Task<ActionResult> B(int? CategoryId)
-        {
-            var Params = new List<Tuple<string, string>>
-            {
-                new Tuple<string, string>("userid", Util.Configuration.UserId),
-                new Tuple<string, string>("CategoryId", "587089a4f61ebb1fb8395de8"),
-                new Tuple<string, string>("BlockCode", "SPECIAL"),
-                new Tuple<string, string>("Count", "20")
-
-            };
-
-            var result = await Util.ApiUtility.HttpRequest("UserBlog/GetBlockNews", Params);
-            var categories = Util.ApiUtility.GetServiceResult<Models.Content.NewsContent>(result);
-            return View("Service");
         }
     }
 }

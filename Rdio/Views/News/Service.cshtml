@@ -1,11 +1,21 @@
-﻿
+﻿@model Rdio.ViewModel.News.ServiceVM
 @{
     ViewBag.Title = "Service";
     Layout = "~/Views/Shared/_Master.cshtml";
 }
 
 <h2>Service</h2>
-
+<div class="clearfix">
+    @foreach (var item in Model.BlockNews)
+    {
+        <div class="col-md-4">
+            @foreach (var news in item.Item2)
+            {
+                <div>@news.titr</div>
+            }
+        </div>
+    }
+</div>
 <script>
     $(document).ready(function () {
         Rdio.News.Event.GetCategories();

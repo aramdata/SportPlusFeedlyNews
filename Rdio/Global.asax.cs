@@ -21,6 +21,7 @@ namespace Rdio
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             ImageProcessingModule.OnPostProcessing += Rdio.Util.ImageProccessor.WatermarkHandler;
 
+            var documentStoreWrapper = new Service.BlogInitialize();
         }
     }
 }

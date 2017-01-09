@@ -521,6 +521,7 @@
     <Compile Include="Repository\BaseContentRepository.cs" />
     <Compile Include="Repository\ContentRepository.cs" />
     <Compile Include="Repository\ContentManagerRepository.cs" />
+    <Compile Include="Service\BlogInitialize.cs" />
     <Compile Include="Service\CacheService.cs" />
     <Compile Include="Service\CrawlerService.cs" />
     <Compile Include="Service\NewsService.cs" />

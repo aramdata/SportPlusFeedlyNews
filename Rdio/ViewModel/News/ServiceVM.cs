@@ -8,6 +8,10 @@ namespace Rdio.ViewModel.News
 {
     public class ServiceVM
     {
-        public List<Models.ContentManager.Category> Categories { get; set; }
+        public Models.ContentManager.Category Categories { get; set; }
+        public List<Models.ContentManager.Block> Blocks { get; set; }
+        public List<Tuple<Models.ContentManager.Block,List<Models.Content.NewsContent>>> BlockNews { get; set; }
+
+
     }
 }
