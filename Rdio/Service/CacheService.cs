@@ -12,11 +12,14 @@ namespace Rdio.Service
         public static string VideoConvertLogReceivKeyName = "VideoConvertLogReceiv";
         public static string PortalCategories = "PortalCategories";
 
-        public void AddToCache(string key,object value)
+        public void AddToCache(string key, object value, DateTime? ExpireDate=null)
         {
             try
             {
-                HttpRuntime.Cache[key] = value;
+                if (ExpireDate == null)
+                    HttpRuntime.Cache.Insert(key, value);
+                else
+                    HttpRuntime.Cache.Insert(key, value, null, ExpireDate.Value, TimeSpan.Zero);
             }
             catch { }
         }
@@ -37,11 +40,12 @@ namespace Rdio.Service
             }
         }
 
-        public void RemoveCache(string key) {
+        public void RemoveCache(string key)
+        {
             try
             {
                 if (HttpRuntime.Cache[key] != null)
-                    HttpRuntime.Cache[key]=string.Empty;
+                    HttpRuntime.Cache[key] = string.Empty;
             }
             catch { }
         }

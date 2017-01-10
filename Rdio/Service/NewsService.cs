@@ -61,5 +61,24 @@ namespace Rdio.Service
             var News = Util.ApiUtility.GetServiceResult<Models.Content.NewsContent>(result);
             return News;
         }
+
+        public async Task<Models.Content.NewsContent> GetNewsInfo(string ContentId)
+        {
+            var Params = new List<Tuple<string, string>>
+            {
+                new Tuple<string, string>("ContentId", ContentId)
+            };
+
+            var result = await Util.ApiUtility.HttpRequest("UserBlog/GetNewsInfo", Params);
+            var News = Util.ApiUtility.GetServiceResult<Models.Content.NewsContent>(result);
+            return News.Any() ? News.FirstOrDefault():new Models.Content.NewsContent();
+        }
+
+        public static Models.ContentManager.Category NewsDefaultCategory(string ContentId)
+        {
+            return PortalCategories().FirstOrDefault(q => q.blocks.Any(x => x.blockrssbind.Any(r => r == ContentId)));
+        }
+
+
     }
 }

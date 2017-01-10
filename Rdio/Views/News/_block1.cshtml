@@ -1,0 +1,11 @@
+﻿@model List<Rdio.Models.Content.NewsContent>
+
+<div class="block1">
+    <div class="block-header"><span>@ViewData["BlockTitle"]</span></div>
+    <div class="block-content">
+        @foreach (var item in Model)
+        {
+            <div class="newsitem"><a href="@Url.Action("Item","News",new {ContentId=item._id})">@item.titr</a></div>
+        }
+    </div>
+</div>

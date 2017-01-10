@@ -481,6 +481,8 @@
     <Content Include="Resource\site.css" />
     <Content Include="Resource\site.js" />
     <Content Include="Resource\loader.css" />
+    <Content Include="Resource\template1\css\portal-tm1.css" />
+    <Content Include="Resource\template1\images\13950613953_home-etod-9.jpg" />
     <Content Include="Resource\tipTip.css" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -554,6 +556,8 @@
     <Compile Include="ViewModel\ContentManager\TemplateVM.cs" />
     <Compile Include="ViewModel\Content\ContentManageServiceResult.cs" />
     <Compile Include="ViewModel\Content\SimpleContentManageVM.cs" />
+    <Compile Include="ViewModel\News\BlockNewsVM.cs" />
+    <Compile Include="ViewModel\News\NewsVM.cs" />
     <Compile Include="ViewModel\News\ServiceVM.cs" />
     <Compile Include="ViewModel\Pagination.cs" />
     <Compile Include="ViewModel\ServiceResult.cs" />
@@ -645,6 +649,10 @@
     <Content Include="Views\News\Service.cshtml" />
     <Content Include="Views\News\Home.cshtml" />
     <Content Include="Views\Shared\_MainMenu.cshtml" />
+    <Content Include="Views\News\_TopNews1.cshtml" />
+    <Content Include="Views\News\_NewsList1.cshtml" />
+    <Content Include="Views\News\_block1.cshtml" />
+    <Content Include="Views\News\Item.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

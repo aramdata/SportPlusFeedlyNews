@@ -9,7 +9,7 @@ namespace Rdio.Util
 {
     public class Configuration
     {
-        public static string APIBaseUrl = "http://localhost:18124/api/";
+        public static string APIBaseUrl = System.Configuration.ConfigurationManager.AppSettings["ApiBaseUrl"];
         public static string UserId => System.Configuration.ConfigurationManager.AppSettings["UserId"];
 
         public enum HttpRequestType

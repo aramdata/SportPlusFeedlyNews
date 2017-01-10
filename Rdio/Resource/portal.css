@@ -32,7 +32,7 @@ li{
     list-style:none;
 }
 a{
-    text-decoration:none;
+    text-decoration:none !important;
 }
 a:focus{
     border:none;
@@ -44,7 +44,7 @@ body{
     background:#eeeeee;
 }
 .page{
-    padding-top:15px;
+    /*padding-top:15px;*/
 }
 .header{
     position:relative;
@@ -68,7 +68,7 @@ body{
     transition: all 0.1s ease-in-out 0s;
     width: 100%;
 }
-.header .navbar-default{
+/*.header .navbar-default{
     background:none !important;
     border:none !important;
     box-shadow:none !important;
@@ -81,7 +81,6 @@ body{
     color:#fff;
     text-shadow:none;
     font-size:16px;
-    /*padding-top:12px;*/
     padding:0 16px;
     margin:16px 0;
 }
@@ -92,7 +91,7 @@ body{
     background:none;
     color:#fc0099;
     box-shadow:none;
-}
+}*/
 .header .headerbg{
     background: 
     linear-gradient(

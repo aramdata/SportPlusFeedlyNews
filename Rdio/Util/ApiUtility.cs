@@ -21,23 +21,15 @@ namespace Rdio.Util
                         url += $"&{param.Item1}={param.Item2}";
                 }
 
-
-
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(Configuration.APIBaseUrl);
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0");
-                //client.DefaultRequestHeaders.Add("Host", uri.Authority);
-                //using (var r = await client.GetAsync(uri))
-                //{
-                //    result = await r.Content.ReadAsStringAsync();
-                //}
                 var response = await client.GetAsync(url);
                 if (response.IsSuccessStatusCode)
                 {
                     result = response.Content.ReadAsStringAsync().Result;
-                    //return Request.CreateResponse(HttpStatusCode.OK, result);
                 }
 
                 //return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "fail");

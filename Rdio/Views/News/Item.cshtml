@@ -1,0 +1,42 @@
+﻿@model Rdio.ViewModel.News.NewsVM
+@{
+    ViewBag.Title = Model.Titr;
+    Layout = "~/Views/Shared/_Master.cshtml";
+}
+
+<div class="col-md-3">
+    @{
+        var Block = Model.BlockNews.FirstOrDefault(q => q.Block.code == string.Empty);
+        if (Block != null && Block.News.Any())
+        {
+            @Html.Partial("_block1", Block.News, new ViewDataDictionary { { "BlockTitle", string.Format("آخرین آخبار گروه {0}", Model.Category.title) } })
+        }
+    }
+</div>
+
+<div class="col-md-9">
+    <div class="newsitem-page">
+        <div class="mainimage">
+            <div class="imgf"></div>
+            <img class="img-responsive" src="@Model.Image"/>
+        </div>
+        <div class="newsdetail">
+            <h1 class="titr">@Model.Titr</h1>
+            <div class="row">
+                <div class="col-md-9">
+                    <h4 class="lead">@Model.Lead</h4>
+                    <div class="content">@Html.Raw(Model.Content)</div>
+                </div>
+
+                <div class="col-md-3">
+                    <p class="data">@Rdio.Util.Common.ConvertG2JDateText(new DateTime(Model.DateTicks), true)</p>
+                </div>
+            </div>
+            
+        </div>
+        
+
+        
+    </div>
+</div>
+
