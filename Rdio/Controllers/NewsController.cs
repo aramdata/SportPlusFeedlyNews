@@ -19,7 +19,7 @@ namespace Rdio.Controllers
 
                 var Category = new Models.ContentManager.Category();
                 Category = string.IsNullOrWhiteSpace(CategoryId) ? NewsService.PortalCategories().FirstOrDefault() : NewsService.PortalCategories().FirstOrDefault(q => q._id == CategoryId);
-                var Blocks = Category.blocks.Where(q => q.blockrssbind.Any()).ToList();
+                var Blocks = Category.blocks.Where(q =>q.blockrssbind!=null && q.blockrssbind.Any()).ToList();
                 var BlocksNews = new List<BlockNewsVM>();
                 foreach (var block in Blocks)
                     BlocksNews.Add(new BlockNewsVM
