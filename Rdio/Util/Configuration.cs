@@ -38,5 +38,25 @@ namespace Rdio.Util
             [Description("فروشگاه")]
             Shopping = 1
         }
+
+        public enum FootbalLegue
+        {
+            [Description("لیگ برتر ایران")]
+            BartarIran = 0,
+            [Description("آزادگان ایران")]
+            Azadegan = 1,
+            [Description("بوندس لیگا")]
+            Bondes = 2,
+            [Description("سری آ")]
+            SerieA = 3,
+            [Description("لشامپیونه")]
+            Leshampione = 4,
+            [Description("لیگ برتر انگلیس")]
+            BartarEnglish = 5,
+            [Description("لالیگا اسپانیا")]
+            Laliga = 6,
+            [Description("لیگ برتر فوتبال ایران")]
+            BartarFootsalIran = 7,
+        }
     }
 }
