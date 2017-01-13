@@ -8,29 +8,47 @@
         var Block = Model.BlockNews.FirstOrDefault(q => q.Block.code == "LATESTNEWS");
         if (Block != null && Block.News.Any())
         {
-            @Html.Partial("_block1", Block.News.Take(10).ToList(), new ViewDataDictionary { { "BlockTitle", Block.Block.title } })
+            @Html.Partial("_block1", Block.News.ToList(), new ViewDataDictionary { { "BlockTitle", Block.Block.title } })
         }
     }
 </div>
 
 <div class="col-md-6">
-    @{
-        Block = Model.BlockNews.FirstOrDefault(q => q.Block.code == "TOP");
+    @foreach (var item in Model.BlockNews.Where(q => q.Block.code == "TOP"))
+    {
+        Block = item;
         if (Block != null && Block.News.Any())
         {
-            @Html.Partial("_TopNews1", Block.News.FirstOrDefault())
-            @Html.Partial("_NewsList1", Block.News.Skip(1).Take(3).ToList())
+            <div class="row hometopblock">
+                <div class="category-Title"><a href="@Url.Action("Service", "News", new {CategoryId = item.Category._id})">@item.Category.title</a></div>
+                <div class="col-md-6">@Html.Partial("_TopNews1", Block.News.FirstOrDefault())</div>
+                <div class="col-md-6">@Html.Partial("_NewsList2", Block.News.Skip(1).Take(3).ToList())</div>
+            </div>
         }
     }
+   
 </div>
 <div class="col-md-3">
-    @{
-        Block = Model.BlockNews.FirstOrDefault(q => q.Block.code == "LATESTNEWS");
-        if (Block != null && Block.News.Any())
-        {
-            @Html.Partial("_block1", Block.News.Skip(10).Take(10).ToList(), new ViewDataDictionary { { "BlockTitle", Block.Block.title } })
-        }
-    }
+    <div class="bs-example bs-example-tabs">
+        <ul class="nav nav-tabs" id="myTabs" role="tablist">
+            <li role="presentation" class="active"><a href="#home" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">زمانبدی لیگ ها</a></li>
+            <li role="presentation"><a href="#profile" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile">جدول لیگ ها</a></li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade in active" role="tabpanel" id="home" aria-labelledby="home-tab">
+                @foreach (var item in Model.FootbalLeguesFixture)
+                {
+                    @Html.Partial("../Legue/_FotbalLegueFixture", item)
+                }
+            </div>
+            <div class="tab-pane fade" role="tabpanel" id="profile" aria-labelledby="profile-tab">
+                @foreach (var item in Model.FootbalLegues)
+                {
+                    @Html.Partial("../Legue/_FotbalLegueTable", item)
+                }
+            </div>
+        </div>
+    </div>
 </div>
 <script>
     $(document).ready(function () {

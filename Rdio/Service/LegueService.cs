@@ -3,82 +3,57 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using Rdio.Models.Legue;
 
 namespace Rdio.Service
 {
     public class LegueService
     {
+        CacheService CacheService = new CacheService();
 
-        public async Task<IEnumerable<Models.Legue.Varzesh3Legue>> GetFootbalLegue(Rdio.Util.Configuration.FootbalLegue FootbalLegue)
+        public async Task<Models.Legue.Varzesh3Legue> GetFootbalLegue(Rdio.Util.Configuration.FootbalLegue FootbalLegue)
         {
+            var CachKey = $"{Service.CacheService.LegueTable}_{(int) FootbalLegue}";
+
+            if (CacheService.GetCache(CachKey) != null)
+                return CacheService.GetCache(CachKey) as Models.Legue.Varzesh3Legue;
+
             var Params = new List<Tuple<string, string>>
             {
-                new Tuple<string, string>("userid", Util.Configuration.UserId)
+                new Tuple<string, string>("FootbalLegueId", ((int)FootbalLegue).ToString())
             };
-            var result = await Util.ApiUtility.HttpRequest("UserBlog/GetCategories", Params);
-            var Categories = Util.ApiUtility.GetServiceResult<Models.ContentManager.Category>(result);
+            var result = await Util.ApiUtility.HttpRequest("UserBlog/GetFootbalLegue", Params);
+            var Legue = Util.ApiUtility.GetServiceResult<Models.Legue.Varzesh3Legue>(result);
+            if (Legue != null && Legue.Any())
+            {
+                CacheService.AddToCache(CachKey, Legue.FirstOrDefault(), DateTime.Now.AddMinutes(30));
+                return Legue.FirstOrDefault();
+            }
 
-            CacheService CacheService = new CacheService();
-            CacheService.AddToCache(Service.CacheService.PortalCategories, Categories);
-
-            return Categories;
-
-            //CacheService CacheService = new CacheService();
-            //if (CacheService.GetCache(Service.CacheService.PortalCategories) == null)
-            //{
-            //    var Params = new List<Tuple<string, string>>
-            //{
-            //    new Tuple<string, string>("userid", Util.Configuration.UserId)
-            //};
-            //    var result = await Util.ApiUtility.HttpRequest("UserBlog/GetCategories", Params);
-            //    var Categories = Util.ApiUtility.GetServiceResult<Models.ContentManager.Category>(result);
-            //    //return Categories;
-            //    CacheService.AddToCache(Service.CacheService.PortalCategories, Categories);
-            //}
-            //return CacheService.GetCache(Service.CacheService.PortalCategories) as List<Models.ContentManager.Category>;
+            return new Varzesh3Legue();
         }
 
-        public static List<Models.ContentManager.Category> PortalCategories()
+        public async Task<Models.Legue.Varzesh3LegueFixture> GetFootbalLegueFixture(Rdio.Util.Configuration.FootbalLegue FootbalLegue)
         {
-            //Depend On Call once PortalCategoriesAsync  Befor Call This Method ....
+            var CachKey = $"{Service.CacheService.LegueFixture}_{(int)FootbalLegue}";
 
-            CacheService CacheService = new CacheService();
-            return CacheService.GetCache(Service.CacheService.PortalCategories) as List<Models.ContentManager.Category>;
-        }
+            if (CacheService.GetCache(CachKey) != null)
+                return CacheService.GetCache(CachKey) as Models.Legue.Varzesh3LegueFixture;
 
-        public async Task<IEnumerable<Models.Content.NewsContent>>  GetBlockNews(string CategoryId,string BlockCode,int Count)
-        {
             var Params = new List<Tuple<string, string>>
             {
-                new Tuple<string, string>("userid", Util.Configuration.UserId),
-                new Tuple<string, string>("CategoryId", CategoryId),
-                new Tuple<string, string>("BlockCode", BlockCode),
-                new Tuple<string, string>("Count", Count.ToString())
-
+                new Tuple<string, string>("FootbalLegueId", ((int)FootbalLegue).ToString())
             };
-
-            var result = await Util.ApiUtility.HttpRequest("UserBlog/GetBlockNews", Params);
-            var News = Util.ApiUtility.GetServiceResult<Models.Content.NewsContent>(result);
-            return News;
-        }
-
-        public async Task<Models.Content.NewsContent> GetNewsInfo(string ContentId)
-        {
-            var Params = new List<Tuple<string, string>>
+            var result = await Util.ApiUtility.HttpRequest("UserBlog/GetFootbalLegueFixture", Params);
+            var Legue = Util.ApiUtility.GetServiceResult<Models.Legue.Varzesh3LegueFixture>(result);
+            if (Legue != null && Legue.Any())
             {
-                new Tuple<string, string>("ContentId", ContentId)
-            };
+                CacheService.AddToCache(CachKey, Legue.FirstOrDefault(), DateTime.Now.AddMinutes(30));
+                return Legue.FirstOrDefault();
+            }
 
-            var result = await Util.ApiUtility.HttpRequest("UserBlog/GetNewsInfo", Params);
-            var News = Util.ApiUtility.GetServiceResult<Models.Content.NewsContent>(result);
-            return News.Any() ? News.FirstOrDefault():new Models.Content.NewsContent();
+            return new Varzesh3LegueFixture();
         }
-
-        public static Models.ContentManager.Category NewsDefaultCategory(string ContentId)
-        {
-            return PortalCategories().FirstOrDefault(q => q.blocks.Any(x => x.blockrssbind.Any(r => r == ContentId)));
-        }
-
 
     }
 }

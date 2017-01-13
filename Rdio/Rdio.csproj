@@ -517,7 +517,9 @@
     <Compile Include="Models\Content\NewsContent.cs" />
     <Compile Include="Models\Crawl\CrawlStructur.cs" />
     <Compile Include="Models\Crawl\CrawlTemplate.cs" />
+    <Compile Include="Models\Legue\Varzesh3Fixture.cs" />
     <Compile Include="Models\Legue\Varzesh3Legue.cs" />
+    <Compile Include="Models\Legue\Varzesh3LegueFixture.cs" />
     <Compile Include="Models\Legue\Varzesh3Table.cs" />
     <Compile Include="Models\Legue\Varzesh3Widget.cs" />
     <Compile Include="Models\NoSql.cs" />
@@ -657,6 +659,10 @@
     <Content Include="Views\News\_NewsList1.cshtml" />
     <Content Include="Views\News\_block1.cshtml" />
     <Content Include="Views\News\Item.cshtml" />
+    <Content Include="Views\Legue\_FotbalLegueTable.cshtml" />
+    <Content Include="Views\Legue\_FotbalLegueFixture.cshtml" />
+    <Content Include="Views\News\_TopNews2.cshtml" />
+    <Content Include="Views\News\_NewsList2.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

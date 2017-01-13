@@ -1,0 +1,17 @@
+﻿@model List<Rdio.Models.Content.NewsContent>
+
+<div class="block2">
+    @foreach (var item in Model)
+    {
+        <div class="media newsitem">
+            <div class="media-left">
+                <img width="80" class="img-responsive- img-rounded" src="@item.image" />
+            </div>
+            <div class="media-body">
+                <div class="media-heading">
+                    <a target="_blank"  href="@Url.Action("Item", "News", new {ContentId = item._id})">@item.titr</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

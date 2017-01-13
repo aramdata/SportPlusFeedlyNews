@@ -1,0 +1,33 @@
+﻿@model Rdio.Models.Legue.Varzesh3Legue
+
+<div class="block1">
+    <div class="block-header"><span>@Model.Widget.Title</span></div>
+    <div class="block-content">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>رتبه</th>
+                    <th>تیم</th>
+                    <th>بازی</th>
+                    <th>تفاضل</th>
+                    <th>امتیاز</th>
+                </tr>
+            </thead>
+            <tbody>
+            @{ var cnt = 0;}
+            @foreach (var item in Model.Table)
+            {
+                cnt++;
+                <tr>
+                    <th scope="row">@cnt</th>
+                    <td>@item.Team</td>
+                    <td>@item.Played</td>
+                    <td>@item.Diff</td>
+                    <td>@item.Points</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+
+    </div>
+</div>

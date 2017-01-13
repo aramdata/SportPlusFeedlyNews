@@ -9,6 +9,7 @@ namespace Rdio.ViewModel.News
     {
         public Models.ContentManager.Block Block { get; set; }
         public List<Models.Content.NewsContent> News { get; set; }
+        public Models.ContentManager.Category Category { get; set; }
 
     }
 }

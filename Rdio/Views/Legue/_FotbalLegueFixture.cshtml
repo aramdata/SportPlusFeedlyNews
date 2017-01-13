@@ -1,0 +1,27 @@
+﻿@model Rdio.Models.Legue.Varzesh3LegueFixture
+
+<div class="block1 leguefixture">
+    <div class="block-header"><span>@Model.Widget.Title</span></div>
+    <div class="block-content">
+        @foreach (var legue in Model.Fixtures.GroupBy(c=>c.JalaliDate))
+        {
+            <div class="date">@legue.Key</div>
+            foreach (var item in legue)
+            {
+                <div class="clearfix fixture-item">
+                    <div class="col-md-5 team team-right">
+                        <span>@item.GuestTeam</span>
+                        <span class="score">@item.GuestPoint</span>
+                    </div>
+                    <div class="col-md-5 team team-left">
+                        <span class="score">@item.HostPoint</span>
+                        <span>@item.HostTeam</span>
+                    </div>
+                    <div class="col-md-2 time">
+                        <span>@item.Time</span>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>

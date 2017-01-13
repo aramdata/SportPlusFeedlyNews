@@ -11,6 +11,10 @@ namespace Rdio.Service
         public static string VideoConvertProgressKeyName = "VideoConvertProgress";
         public static string VideoConvertLogReceivKeyName = "VideoConvertLogReceiv";
         public static string PortalCategories = "PortalCategories";
+        public static string LegueTable = "LegueTable";
+        public static string LegueFixture = "LegueFixture";
+        public static string GetBlockNewsForAllCategories = "GetBlockNewsForAllCategories";
+
 
         public void AddToCache(string key, object value, DateTime? ExpireDate=null)
         {

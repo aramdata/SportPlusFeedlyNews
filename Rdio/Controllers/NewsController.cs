@@ -4,7 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Rdio.Models.ContentManager;
+using Rdio.Models.Legue;
 using Rdio.Service;
+using Rdio.Util;
 using Rdio.ViewModel.News;
 
 namespace Rdio.Controllers
@@ -12,31 +15,78 @@ namespace Rdio.Controllers
     public class NewsController : Controller
     {
         NewsService NewsService =new NewsService();
+        LegueService LegueService = new LegueService();
+
         public async Task<ActionResult> Service(string CategoryId)
         {
             try
             {
-                
-                var Category = new Models.ContentManager.Category();
-                Category = string.IsNullOrWhiteSpace(CategoryId) ? NewsService.PortalCategories().FirstOrDefault() : NewsService.PortalCategories().FirstOrDefault(q => q._id == CategoryId);
-                var Blocks = Category.blocks.Where(q =>q.blockrssbind!=null && q.blockrssbind.Any()).ToList();
-                var BlocksNews = new List<BlockNewsVM>();
-                foreach (var block in Blocks)
-                    BlocksNews.Add(new BlockNewsVM
-                    {
-                        Block = block,
-                        News = (await this.NewsService.GetBlockNews(Category._id, block.code, 20)).ToList()
-                    });
-
-                var model = new ViewModel.News.ServiceVM
-                {
-                    Category = Category,
-                    BlockNews = BlocksNews
-                };
 
                 if (CategoryId == null)
+                {
+                    //var Category = NewsService.PortalCategories().FirstOrDefault();
+                    //var Blocks = Category.blocks.Where(q => q.blockrssbind != null && q.blockrssbind.Any()).ToList();
+                    var BlocksNews = new List<BlockNewsVM>();
+                    BlocksNews.AddRange(await NewsService.GetBlockNewsForAllCategories("TOP",4));
+                    BlocksNews.AddRange(await NewsService.GetBlockNewsForAllCategories("LATESTNEWS", 4));
+
+                    //foreach (var block in Blocks)
+                    //    BlocksNews.Add(new BlockNewsVM
+                    //    {
+                    //        Block = block,
+                    //        News = (await this.NewsService.GetBlockNews(Category._id, block.code, 20)).ToList()
+                    //    });
+
+                    var Legues = new List<Varzesh3Legue>();
+                    Legues.Add(await LegueService.GetFootbalLegue(Configuration.FootbalLegue.BartarIran));
+                    Legues.Add(await LegueService.GetFootbalLegue(Configuration.FootbalLegue.BartarEnglish));
+                    Legues.Add(await LegueService.GetFootbalLegue(Configuration.FootbalLegue.Azadegan));
+                    Legues.Add(await LegueService.GetFootbalLegue(Configuration.FootbalLegue.Laliga));
+                    Legues.Add(await LegueService.GetFootbalLegue(Configuration.FootbalLegue.Bondes));
+                    Legues.Add(await LegueService.GetFootbalLegue(Configuration.FootbalLegue.SerieA));
+                    Legues.Add(await LegueService.GetFootbalLegue(Configuration.FootbalLegue.Leshampione));
+
+                    var LeguesFixture = new List<Varzesh3LegueFixture>();
+                    LeguesFixture.Add(await LegueService.GetFootbalLegueFixture(Configuration.FootbalLegue.BartarIran));
+                    LeguesFixture.Add(await LegueService.GetFootbalLegueFixture(Configuration.FootbalLegue.BartarEnglish));
+                    LeguesFixture.Add(await LegueService.GetFootbalLegueFixture(Configuration.FootbalLegue.Azadegan));
+                    LeguesFixture.Add(await LegueService.GetFootbalLegueFixture(Configuration.FootbalLegue.Laliga));
+                    LeguesFixture.Add(await LegueService.GetFootbalLegueFixture(Configuration.FootbalLegue.Bondes));
+                    LeguesFixture.Add(await LegueService.GetFootbalLegueFixture(Configuration.FootbalLegue.SerieA));
+                    LeguesFixture.Add(await LegueService.GetFootbalLegueFixture(Configuration.FootbalLegue.Leshampione));
+
+                    var model = new ViewModel.News.ServiceVM
+                    {
+                        Category = new Category(),
+                        BlockNews = BlocksNews,
+                        FootbalLegues = Legues,
+                        FootbalLeguesFixture = LeguesFixture
+                    };
                     return View("Home", model);
-                return View("Service", model);
+
+                }
+                else
+                {
+                    var Category = NewsService.PortalCategories().FirstOrDefault(q => q._id == CategoryId); 
+                    var Blocks = Category.blocks.Where(q => q.blockrssbind != null && q.blockrssbind.Any()).ToList();
+                    var BlocksNews = new List<BlockNewsVM>();
+                    foreach (var block in Blocks)
+                        BlocksNews.Add(new BlockNewsVM
+                        {
+                            Block = block,
+                            News = (await this.NewsService.GetBlockNews(Category._id, block.code, 20)).ToList()
+                        });
+
+                    var model = new ViewModel.News.ServiceVM
+                    {
+                        Category = Category,
+                        BlockNews = BlocksNews,
+                        //FootbalLegues = Legues,
+                        //FootbalLeguesFixture = LeguesFixture
+                    };
+                    return View("Service", model);
+
+                }
             }
             catch (Exception e)
             {

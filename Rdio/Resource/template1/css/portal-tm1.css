@@ -13,8 +13,8 @@
     box-shadow:none !important;
     /*margin:0 !important;*/
     margin: 0 auto;
-    width: 50%;
-    /*display: inline-block;*/
+    /*width: 50%;*/
+    display: inline-block;
     border-radius: 0 !important;
 
 }
@@ -51,6 +51,8 @@ border-right: 30px solid transparent;
 
 .block1 {
     background: #f5f5f5;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #e0e0e0;
 }
 .block1 .block-header {
     padding: 10px;
@@ -87,6 +89,9 @@ border-right: 30px solid transparent;
     background: #fff;
     padding:10px;
 }
+.topnews1 img {
+    width: 100%;
+}
 .topnews1 .titr {
     font-size: 22px;
     margin: 12px 0;
@@ -99,13 +104,14 @@ border-right: 30px solid transparent;
 }
 .block2 {
     /*background: #fff;*/
-    margin: 10px 0 0 0 ;
+    /*margin: 10px 0 0 0 ;*/
 }
 .block2 .newsitem {
     padding: 10px;
-    margin-bottom: 5px;
+    margin: 0 0 10px 0;
     background: #f5f5f5; 
     border-bottom: 2px solid #E0E0E0;
+    font-size: 15px;
 }
 .block2 .newsitem a{
    color: #424242;
@@ -163,4 +169,53 @@ border-right: 30px solid transparent;
     font-size: 16px;
     color: #323232;
     line-height: 32px;
+}
+.leguefixture .date{
+    color: #9E9E9E;
+font-size: 12px;
+line-height: 26px;
+font-weight: normal;
+text-align: center;
+margin: 0;
+height: 28px;
+border-bottom: 1px solid #E0E0E0;
+}
+.leguefixture .fixture-item{
+    border-bottom: 1px solid #E0E0E0;
+color: #424242;
+font-size: 14px;
+position: relative;
+padding-bottom: 12px;
+}
+.leguefixture .fixture-item .team{
+    padding:0;
+}
+.leguefixture .fixture-item .team.team-right{
+    text-align: left;
+}
+.leguefixture .fixture-item .team.team-left{
+    text-align: right;
+}
+.leguefixture .fixture-item .team .score{
+    margin: 0 4px;
+    font-size: 17px;
+}
+.hometopblock {
+    background: #fff;
+    border-bottom: 2px solid #d2691e;
+    margin-bottom: 10px;
+    position: relative;
+}
+.category-Title {
+    background: #ee2749;
+    color: #fff;
+    font-size: 20px;
+    position: absolute;
+    right: 0;
+    top: 20px;
+    padding: 3px 5px;
+    z-index: 19;
+}
+.category-Title a {
+    color: #fff !important;
 }
