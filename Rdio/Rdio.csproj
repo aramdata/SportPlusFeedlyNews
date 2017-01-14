@@ -507,6 +507,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Aparat\Video.cs" />
     <Compile Include="Models\BaseContent\BaseContent.cs" />
     <Compile Include="Models\BaseRssItem.cs" />
     <Compile Include="Models\ContentManager\Block.cs" />
@@ -528,6 +529,7 @@
     <Compile Include="Repository\BaseContentRepository.cs" />
     <Compile Include="Repository\ContentRepository.cs" />
     <Compile Include="Repository\ContentManagerRepository.cs" />
+    <Compile Include="Service\AparatService.cs" />
     <Compile Include="Service\BlogInitialize.cs" />
     <Compile Include="Service\CacheService.cs" />
     <Compile Include="Service\CrawlerService.cs" />

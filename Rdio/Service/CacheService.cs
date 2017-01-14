@@ -14,6 +14,7 @@ namespace Rdio.Service
         public static string LegueTable = "LegueTable";
         public static string LegueFixture = "LegueFixture";
         public static string GetBlockNewsForAllCategories = "GetBlockNewsForAllCategories";
+        public static string GetAparatChannelVideo = "GetAparatChannelVideo";
 
 
         public void AddToCache(string key, object value, DateTime? ExpireDate=null)

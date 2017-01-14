@@ -16,14 +16,17 @@ namespace Rdio.Controllers
     {
         NewsService NewsService =new NewsService();
         LegueService LegueService = new LegueService();
+        AparatService AparatService = new AparatService();
 
         public async Task<ActionResult> Service(string CategoryId)
         {
             try
             {
-
+                
                 if (CategoryId == null)
                 {
+                    var AparatVideo = await AparatService.GetChannelVideo("sportplus");
+
                     //var Category = NewsService.PortalCategories().FirstOrDefault();
                     //var Blocks = Category.blocks.Where(q => q.blockrssbind != null && q.blockrssbind.Any()).ToList();
                     var BlocksNews = new List<BlockNewsVM>();
@@ -60,7 +63,8 @@ namespace Rdio.Controllers
                         Category = new Category(),
                         BlockNews = BlocksNews,
                         FootbalLegues = Legues,
-                        FootbalLeguesFixture = LeguesFixture
+                        FootbalLeguesFixture = LeguesFixture,
+                        AparatVideos=AparatVideo
                     };
                     return View("Home", model);
 
