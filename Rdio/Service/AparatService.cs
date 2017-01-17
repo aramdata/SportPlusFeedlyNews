@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -24,11 +25,14 @@ namespace Rdio.Service
             var result = await HttpRequest(ChannelName, new List<Tuple<string, string>>());
 
             var ChannelVidoePattern = "#block-grid-video-list li > div > div:first-of-type a";
+            var FileFromUrlRegex = @"http[s]?(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+";
+
             var parser = new HtmlParser();
             var document = parser.Parse(result);
             var videoItems = document.QuerySelectorAll(ChannelVidoePattern);
             foreach (var videoItem in videoItems)
             {
+                var VideoPicture = Regex.Match(videoItem.GetAttribute("style"), FileFromUrlRegex);
                 var VideoPath = videoItem.GetAttribute("href");
                 result= await HttpRequest(VideoPath, new List<Tuple<string, string>>());
                 parser = new HtmlParser();
@@ -40,7 +44,8 @@ namespace Rdio.Service
 
                 model.Add(new Models.Aparat.Video {
                     VideoPath= MainVideoPath,
-                    Title= VideoTitle
+                    Title= VideoTitle,
+                    VideoImagePath= VideoPicture!=null ? VideoPicture.Value.Replace(");","") : string.Empty
                 });
             }
             CacheService.AddToCache(CachKey, model, DateTime.Now.AddMinutes(30));

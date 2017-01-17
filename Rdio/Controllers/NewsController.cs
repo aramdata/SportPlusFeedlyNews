@@ -25,21 +25,15 @@ namespace Rdio.Controllers
                 
                 if (CategoryId == null)
                 {
+                    //Aparat Channel Videos
                     var AparatVideo = await AparatService.GetChannelVideo("sportplus");
 
-                    //var Category = NewsService.PortalCategories().FirstOrDefault();
-                    //var Blocks = Category.blocks.Where(q => q.blockrssbind != null && q.blockrssbind.Any()).ToList();
+                    //All Categorie Block News
                     var BlocksNews = new List<BlockNewsVM>();
-                    BlocksNews.AddRange(await NewsService.GetBlockNewsForAllCategories("TOP",4));
-                    BlocksNews.AddRange(await NewsService.GetBlockNewsForAllCategories("LATESTNEWS", 4));
+                    BlocksNews.AddRange(await NewsService.GetBlockNewsForAllCategories("TOP",5));
+                    BlocksNews.AddRange(await NewsService.GetBlockNewsForAllCategories("LATESTNEWS", 30));
 
-                    //foreach (var block in Blocks)
-                    //    BlocksNews.Add(new BlockNewsVM
-                    //    {
-                    //        Block = block,
-                    //        News = (await this.NewsService.GetBlockNews(Category._id, block.code, 20)).ToList()
-                    //    });
-
+                    //Legues Tables
                     var Legues = new List<Varzesh3Legue>();
                     Legues.Add(await LegueService.GetFootbalLegue(Configuration.FootbalLegue.BartarIran));
                     Legues.Add(await LegueService.GetFootbalLegue(Configuration.FootbalLegue.BartarEnglish));
@@ -49,6 +43,7 @@ namespace Rdio.Controllers
                     Legues.Add(await LegueService.GetFootbalLegue(Configuration.FootbalLegue.SerieA));
                     Legues.Add(await LegueService.GetFootbalLegue(Configuration.FootbalLegue.Leshampione));
 
+                    //Legues Fixtures
                     var LeguesFixture = new List<Varzesh3LegueFixture>();
                     LeguesFixture.Add(await LegueService.GetFootbalLegueFixture(Configuration.FootbalLegue.BartarIran));
                     LeguesFixture.Add(await LegueService.GetFootbalLegueFixture(Configuration.FootbalLegue.BartarEnglish));
@@ -64,7 +59,7 @@ namespace Rdio.Controllers
                         BlockNews = BlocksNews,
                         FootbalLegues = Legues,
                         FootbalLeguesFixture = LeguesFixture,
-                        AparatVideos=AparatVideo
+                        AparatVideos=AparatVideo.Take(10).ToList()
                     };
                     return View("Home", model);
 

@@ -1,0 +1,25 @@
+﻿@model List<Rdio.Models.Aparat.Video>
+<div class="videos-container">
+    <div class="block-header"><span>@ViewData["BlockTitle"]</span></div>
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-6">
+                <div class="video-card">
+                    <h1>@item.Title</h1>
+                    <span class="seprator1"></span>
+                    <div class="img-container">
+                        <a href="#">
+                            <span class="video-play fa fa-play fa-3x"></span>
+                            <img class="img-responsive" src="@item.VideoImagePath" alt="@item.Title" />
+                        </a>
+                    </div>
+                    @*<video controls="controls" preload="none">
+                            <source src="@item.VideoPath" type="video/mp4" />
+                        </video>*@
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

@@ -28,15 +28,8 @@
     }
    
     <hr />
-    @foreach (var item in Model.AparatVideos)
-    {
-        <div>
-            <video controls="controls" preload="none">
-                <source src="@item.VideoPath" type="video/mp4" />
-            </video>
-            <h1>@item.Title</h1>
-        </div>
-    }
+    <div class="row">@Html.Partial("_aparatVideoBlock",Model.AparatVideos , new ViewDataDictionary { { "BlockTitle","ویدئو های کانال" } })</div>
+    
 </div>
 <div class="col-md-3">
     <div class="bs-example bs-example-tabs">

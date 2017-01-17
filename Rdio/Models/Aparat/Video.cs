@@ -9,5 +9,7 @@ namespace Rdio.Models.Aparat
     {
         public string Title { get; set; }
         public string VideoPath { get; set; }
+        public string VideoImagePath { get; set; }
+
     }
 }
