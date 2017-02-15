@@ -36,13 +36,15 @@ if (string.IsNullOrWhiteSpace(input))
 
 </head>
 <body>
-    <div class="header">
-        <div class="main-menu">@Html.Partial("_MainMenu")</div>
+<div class="header">
+</div>
+    <div class="main-menu">@Html.Partial("_MainMenu")</div>
+
+<div class="container-fluid page">
+    <div class="row">
+        @RenderBody()
     </div>
-    <div class="container-fluid page">
-        <div class="row">
-            @RenderBody()
-        </div>
-    </div>
+</div>
+<div class="footer"></div>
 </body>
 </html>

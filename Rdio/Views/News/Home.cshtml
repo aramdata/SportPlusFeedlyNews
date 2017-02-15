@@ -21,8 +21,8 @@
         {
             <div class="row hometopblock">
                 <div class="category-Title"><a href="@Url.Action("Service", "News", new {CategoryId = item.Category._id})">@item.Category.title</a></div>
-                <div class="col-md-6">@Html.Partial("_TopNews1", Block.News.FirstOrDefault())</div>
-                <div class="col-md-6">@Html.Partial("_NewsList2", Block.News.Skip(1).Take(3).ToList())</div>
+                <div class="col-md-12">@Html.Partial("_TopNews3", Block.News.FirstOrDefault())</div>
+                <div class="col-md-12">@Html.Partial("_NewsList2", Block.News.Skip(1).Take(4).ToList())</div>
             </div>
         }
     }

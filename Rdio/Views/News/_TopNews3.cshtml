@@ -1,0 +1,11 @@
+﻿@model Rdio.Models.Content.NewsContent
+    
+<div class="topnews3">
+    <a target="_blank" href="@Url.Action("Item","News",new {ContentId=Model._id})" class="titr"><h1 >@Model.titr</h1></a>
+    <div class="clearfix">
+        <a target="_blank" href="@Url.Action("Item", "News", new {ContentId = Model._id})" class="post-tumbnail pull-right">
+            <img class="img-responsive tran1" src="@Model.image"/>
+        </a>
+        <h4 class="post-detail">@Model.lead</h4>
+    </div>
+</div>

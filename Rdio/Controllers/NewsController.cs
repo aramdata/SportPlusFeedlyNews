@@ -24,18 +24,9 @@ namespace Rdio.Controllers
 
                 if (CategoryId == null)
                 {
-                    //var Category = NewsService.PortalCategories().FirstOrDefault();
-                    //var Blocks = Category.blocks.Where(q => q.blockrssbind != null && q.blockrssbind.Any()).ToList();
                     var BlocksNews = new List<BlockNewsVM>();
-                    BlocksNews.AddRange(await NewsService.GetBlockNewsForAllCategories("TOP",4));
-                    BlocksNews.AddRange(await NewsService.GetBlockNewsForAllCategories("LATESTNEWS", 4));
-
-                    //foreach (var block in Blocks)
-                    //    BlocksNews.Add(new BlockNewsVM
-                    //    {
-                    //        Block = block,
-                    //        News = (await this.NewsService.GetBlockNews(Category._id, block.code, 20)).ToList()
-                    //    });
+                    BlocksNews.AddRange(await NewsService.GetBlockNewsForAllCategories("TOP",5));
+                    BlocksNews.AddRange(await NewsService.GetBlockNewsForAllCategories("LATESTNEWS", 5));
 
                     var Legues = new List<Varzesh3Legue>();
                     Legues.Add(await LegueService.GetFootbalLegue(Configuration.FootbalLegue.BartarIran));
@@ -77,12 +68,53 @@ namespace Rdio.Controllers
                             News = (await this.NewsService.GetBlockNews(Category._id, block.code, 20)).ToList()
                         });
 
+
+                    var Legues = new List<Varzesh3Legue>();
+                    var LeguesFixture = new List<Varzesh3LegueFixture>();
+
+                    //Footbal
+                    if (CategoryId == "5874f61dbcba2a1cacbe50f4")
+                    {
+                        Legues.Add(await LegueService.GetFootbalLegue(Configuration.FootbalLegue.BartarIran));
+                        Legues.Add(await LegueService.GetFootbalLegue(Configuration.FootbalLegue.BartarEnglish));
+                        Legues.Add(await LegueService.GetFootbalLegue(Configuration.FootbalLegue.Azadegan));
+                        Legues.Add(await LegueService.GetFootbalLegue(Configuration.FootbalLegue.Laliga));
+                        Legues.Add(await LegueService.GetFootbalLegue(Configuration.FootbalLegue.Bondes));
+                        Legues.Add(await LegueService.GetFootbalLegue(Configuration.FootbalLegue.SerieA));
+                        Legues.Add(await LegueService.GetFootbalLegue(Configuration.FootbalLegue.Leshampione));
+
+                        LeguesFixture.Add(await LegueService.GetFootbalLegueFixture(Configuration.FootbalLegue.BartarIran));
+                        LeguesFixture.Add(await LegueService.GetFootbalLegueFixture(Configuration.FootbalLegue.BartarEnglish));
+                        LeguesFixture.Add(await LegueService.GetFootbalLegueFixture(Configuration.FootbalLegue.Azadegan));
+                        LeguesFixture.Add(await LegueService.GetFootbalLegueFixture(Configuration.FootbalLegue.Laliga));
+                        LeguesFixture.Add(await LegueService.GetFootbalLegueFixture(Configuration.FootbalLegue.Bondes));
+                        LeguesFixture.Add(await LegueService.GetFootbalLegueFixture(Configuration.FootbalLegue.SerieA));
+                        LeguesFixture.Add(await LegueService.GetFootbalLegueFixture(Configuration.FootbalLegue.Leshampione));
+                    }
+
+                    //Vollybal
+                    if (CategoryId == "58750ce2bcba2a1cacbe566e")
+                    {
+                        Legues.Add(await LegueService.GetVollybalLegue(Configuration.VollybalLegue.Bartar));
+                        Legues.Add(await LegueService.GetVollybalLegue(Configuration.VollybalLegue.PlayOff));
+
+                        LeguesFixture.Add(await LegueService.GetVollybalLegueFixture(Configuration.VollybalLegue.Bartar));
+                        LeguesFixture.Add(await LegueService.GetVollybalLegueFixture(Configuration.VollybalLegue.PlayOff));
+                    }
+
+                    //Basketbal
+                    if (CategoryId == "58750d24bcba2a1cacbe567c")
+                    {
+                        Legues.Add(await LegueService.GetBasketbalLegue(Configuration.BasketbalLegue.Bartar));
+                        LeguesFixture.Add(await LegueService.GetBasketbalLegueFixture(Configuration.BasketbalLegue.Bartar));
+                    }
+
                     var model = new ViewModel.News.ServiceVM
                     {
                         Category = Category,
                         BlockNews = BlocksNews,
-                        //FootbalLegues = Legues,
-                        //FootbalLeguesFixture = LeguesFixture
+                        FootbalLegues = Legues,
+                        FootbalLeguesFixture = LeguesFixture
                     };
                     return View("Service", model);
 

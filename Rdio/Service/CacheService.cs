@@ -11,8 +11,13 @@ namespace Rdio.Service
         public static string VideoConvertProgressKeyName = "VideoConvertProgress";
         public static string VideoConvertLogReceivKeyName = "VideoConvertLogReceiv";
         public static string PortalCategories = "PortalCategories";
-        public static string LegueTable = "LegueTable";
-        public static string LegueFixture = "LegueFixture";
+        public static string FootballLegueTable = "FootballLegueTable";
+        public static string FootballLegueFixture = "FootballLegueFixture";
+        public static string VollyballLegueTable = "VollyballLegueTable";
+        public static string VollyballLegueFixture = "VollyballLegueFixture";
+        public static string BasketballLegueTable = "BasketballLegueTable";
+        public static string BasketballLegueFixture = "BasketballLegueFixture";
+
         public static string GetBlockNewsForAllCategories = "GetBlockNewsForAllCategories";
 
 

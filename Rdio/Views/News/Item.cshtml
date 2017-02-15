@@ -16,9 +16,12 @@
 
 <div class="col-md-9">
     <div class="newsitem-page">
-        <div class="mainimage">
+        <div class="mainimage clearfix">
             <div class="imgf"></div>
-            <img class="img-responsive" src="@Model.Image"/>
+            <div class="col-md-6 col-md-offset-3">
+                <img class="img-responsive" src="@Model.Image" />
+            </div>
+            
         </div>
         <div class="newsdetail">
             <h1 class="titr">@Model.Titr</h1>

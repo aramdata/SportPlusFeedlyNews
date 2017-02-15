@@ -58,5 +58,19 @@ namespace Rdio.Util
             [Description("لیگ برتر فوتبال ایران")]
             BartarFootsalIran = 7,
         }
+
+        public enum VollybalLegue
+        {
+            [Description("لیگ برتر")]
+            Bartar = 0,
+            [Description("پلی آف")]
+            PlayOff = 1
+        }
+
+        public enum BasketbalLegue
+        {
+            [Description("لیگ برتر")]
+            Bartar = 0
+        }
     }
 }

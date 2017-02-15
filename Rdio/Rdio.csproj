@@ -444,6 +444,7 @@
     <Content Include="Resource\fonts\iryekanbold.svg" />
     <Content Include="Resource\fonts\iryekanregular.svg" />
     <Content Include="Resource\handlebars-v4.0.5.js" />
+    <Content Include="Resource\img\logo-large.png" />
     <Content Include="Resource\jcrop\Jcrop.gif" />
     <Content Include="Resource\jcrop\jquery.color.js" />
     <Content Include="Resource\jcrop\jquery.Jcrop.css" />
@@ -663,6 +664,7 @@
     <Content Include="Views\Legue\_FotbalLegueFixture.cshtml" />
     <Content Include="Views\News\_TopNews2.cshtml" />
     <Content Include="Views\News\_NewsList2.cshtml" />
+    <Content Include="Views\News\_TopNews3.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -675,7 +677,6 @@
     <Folder Include="Content\newspaper\" />
     <Folder Include="Content\news\" />
     <Folder Include="Modules\" />
-    <Folder Include="Resource\img\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

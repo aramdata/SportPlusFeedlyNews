@@ -14,18 +14,22 @@
                 </tr>
             </thead>
             <tbody>
-            @{ var cnt = 0;}
-            @foreach (var item in Model.Table)
-            {
-                cnt++;
-                <tr>
-                    <th scope="row">@cnt</th>
-                    <td>@item.Team</td>
-                    <td>@item.Played</td>
-                    <td>@item.Diff</td>
-                    <td>@item.Points</td>
-                </tr>
-            }
+                @if (Model.Table != null && Model.Table.Any())
+                {
+                    var cnt = 0;
+                    foreach (var item in Model.Table)
+                    {
+                        cnt++;
+                        <tr>
+                            <th scope="row">@cnt</th>
+                            <td>@item.Team</td>
+                            <td>@item.Played</td>
+                            <td>@item.Diff</td>
+                            <td>@item.Points</td>
+                        </tr>
+                    }
+                }
+
             </tbody>
         </table>
 
