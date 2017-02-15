@@ -16,6 +16,7 @@ namespace Rdio.Controllers
     {
         NewsService NewsService =new NewsService();
         LegueService LegueService = new LegueService();
+        AparatService AparatService = new AparatService();
 
         public async Task<ActionResult> Service(string CategoryId)
         {
@@ -24,10 +25,15 @@ namespace Rdio.Controllers
 
                 if (CategoryId == null)
                 {
+                    //Aparat Channel Videos
+                    var AparatVideo = await AparatService.GetChannelVideo("sportplus");
+
+                    //All Categorie Block News
                     var BlocksNews = new List<BlockNewsVM>();
                     BlocksNews.AddRange(await NewsService.GetBlockNewsForAllCategories("TOP",5));
                     BlocksNews.AddRange(await NewsService.GetBlockNewsForAllCategories("LATESTNEWS", 5));
 
+                    //Legues Tables
                     var Legues = new List<Varzesh3Legue>();
                     Legues.Add(await LegueService.GetFootbalLegue(Configuration.FootbalLegue.BartarIran));
                     Legues.Add(await LegueService.GetFootbalLegue(Configuration.FootbalLegue.BartarEnglish));
@@ -37,6 +43,7 @@ namespace Rdio.Controllers
                     Legues.Add(await LegueService.GetFootbalLegue(Configuration.FootbalLegue.SerieA));
                     Legues.Add(await LegueService.GetFootbalLegue(Configuration.FootbalLegue.Leshampione));
 
+                    //Legues Fixtures
                     var LeguesFixture = new List<Varzesh3LegueFixture>();
                     LeguesFixture.Add(await LegueService.GetFootbalLegueFixture(Configuration.FootbalLegue.BartarIran));
                     LeguesFixture.Add(await LegueService.GetFootbalLegueFixture(Configuration.FootbalLegue.BartarEnglish));
@@ -51,7 +58,8 @@ namespace Rdio.Controllers
                         Category = new Category(),
                         BlockNews = BlocksNews,
                         FootbalLegues = Legues,
-                        FootbalLeguesFixture = LeguesFixture
+                        FootbalLeguesFixture = LeguesFixture,
+                        AparatVideos=AparatVideo.Take(10).ToList()
                     };
                     return View("Home", model);
 

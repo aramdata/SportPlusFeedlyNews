@@ -19,6 +19,7 @@ namespace Rdio.Service
         public static string BasketballLegueFixture = "BasketballLegueFixture";
 
         public static string GetBlockNewsForAllCategories = "GetBlockNewsForAllCategories";
+        public static string GetAparatChannelVideo = "GetAparatChannelVideo";
 
 
         public void AddToCache(string key, object value, DateTime? ExpireDate=null)

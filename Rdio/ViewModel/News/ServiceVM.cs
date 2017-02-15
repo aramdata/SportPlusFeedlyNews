@@ -12,6 +12,7 @@ namespace Rdio.ViewModel.News
         public List<BlockNewsVM> BlockNews { get; set; }
         public List<Models.Legue.Varzesh3Legue> FootbalLegues { get; set; }
         public List<Models.Legue.Varzesh3LegueFixture> FootbalLeguesFixture { get; set; }
+        public List<Models.Aparat.Video> AparatVideos { get; set; }
 
     }
 }
